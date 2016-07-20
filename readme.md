@@ -1,27 +1,34 @@
-## Laravel PHP Framework
+#worktime2
+一款轻量级研发项目管理工具，主要针对中小互联网敏捷开发团队，页面清爽简单，功能精简好用。
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+##使用框架 laravel 5.1
+相关文档可以参考<br>
+http://laravel-china.org/docs/5.1<br>
+http://www.golaravel.com/laravel/docs/5.1/<br>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+##php 的要求
+自行安装吧<br>
+PHP >= 5.5.9 - OpenSSL PHP 扩展 - PDO PHP 扩展 - Mbstring PHP 扩展 - Tokenizer PHP 扩展<br>
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+##nginx 配置
+在 Nginx 中，将下面的指令放到站点配置文件中就可以实现美化链接的功能
+```Java
+location / {
+    try_files $uri $uri/ /index.php?$query_string;
+}
+```
 
-## Official Documentation
+##基本配置
+.env 文件可以修改数据库配置<br>
+mysql 里面要先创建一个数据库<br>
+执行命令创建数据库表 php artisan migrate<br>
+chmod 777 -R storage<br>
+开发环境下，也可以使用php自带的webserver 命令：php artisan serve --port=8080<br>
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+##开始使用
+php artisan serve --port=8080<br>
+http://localhost:8080
 
-## Contributing
+##联系我
+email: aoktian@foxmail.com
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-### License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
