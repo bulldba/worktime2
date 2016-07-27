@@ -76,11 +76,15 @@ class TaskController extends Controller
         $tasks = $query->orderBy('status')
         ->orderBy('tag', 'desc')
         ->orderBy('priority', 'desc')
-        ->paginate( 30 );
+        ->paginate( 20 );
 
         $tpl = 'task-list';
         if ($request->ajax()) {
             $tpl = 'task-list-content';
+        }
+
+        foreach ($options as $key => $value) {
+            $tasks->appends([ $key => $value]);
         }
 
         return view($tpl, [
@@ -118,7 +122,7 @@ class TaskController extends Controller
             $task = new Task;
             $me = Auth::user();
             $task->author = $me->id;
-            $task->status = 10;
+            $task->status = 12;
         }
 
         foreach ($request->input('row') as $key => $value) {

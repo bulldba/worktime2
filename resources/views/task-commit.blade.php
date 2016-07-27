@@ -45,7 +45,7 @@
     <div class="input-group">
         <span class="input-group-addon">负责人：</span>
         <select name="row[leader]" class="form-control">
-@include('selection-users', ['data' => $users, 'slt' => $task->author])
+@include('selection-users', ['data' => $users, 'slt' => $task->leader])
         </select>
     </div>
     </div>

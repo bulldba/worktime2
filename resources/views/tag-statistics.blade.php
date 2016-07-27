@@ -3,7 +3,7 @@
 
 @section('main')
 
-<h1>{{$tag->name}} [{{$tag->t_start}}] - [{{$tag->t_end}}]</h1>
+<h1>{{$tag->name}} [{{date('Y-m-d', strtotime($tag->t_start))}}] - [{{date('Y-m-d', strtotime($tag->t_end))}}]</h1>
 <hr />
 
 <?php
@@ -27,59 +27,21 @@ $departments = Config::get('worktime.department');
 			<tbody>
 <tr>
     <td>全部</td>
-    <td>
-<?php
-$total = array_sum($s_all);
-$p = 0;
-if ($total > 0) {
-    $p = intval($s_all[50] / $total * 10000) / 100;
-}
-?>
-@include('progress', ['p' => $p])
-    </td>
-    <td><?php echo $total; ?></td>
-    <td><?php echo $s_all[10] + $s_all[30]; ?></td>
-    <td><?php echo $s_all[20]; ?></td>
-    <td><?php echo $s_all[40]; ?></td>
-    <td><?php echo $s_all[50]; ?></td>
+@include('tag-statistics-td', ['one' => $s_all])
 </tr>
 <?php
 foreach ($s_department as $id => $one) {
-    $total = array_sum($one);
-    $p = 0;
-    if ($total > 0) {
-        $p = intval($one[50] / $total * 10000) / 100;
-    }
 ?>
 <tr>
 	<td><?php echo $departments[$id]; ?></td>
-    <td>
-@include('progress', ['p' => $p])
-    </td>
-    <td><?php echo $total; ?></td>
-	<td><?php echo $one[10] + $one[30]; ?></td>
-	<td><?php echo $one[20]; ?></td>
-    <td><?php echo $one[40]; ?></td>
-    <td><?php echo $one[50]; ?></td>
+@include('tag-statistics-td', ['one' => $one])
 </tr>
 <?php }
 foreach ($s_leader as $id => $one) {
-    $total = array_sum($one);
-    $p = 0;
-    if ($total > 0) {
-        $p = intval($one[50] / $total * 10000) / 100;
-    }
 ?>
 <tr>
     <td><?php echo $users[$id]->name; ?></td>
-    <td>
-@include('progress', ['p' => $p])
-    </td>
-    <td><?php echo array_sum($one); ?></td>
-    <td><?php echo $one[10] + $one[30]; ?></td>
-    <td><?php echo $one[20]; ?></td>
-    <td><?php echo $one[40]; ?></td>
-    <td><?php echo $one[50]; ?></td>
+@include('tag-statistics-td', ['one' => $one])
 </tr>
 <?php } ?>
 			</tbody>

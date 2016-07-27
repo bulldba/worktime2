@@ -7,7 +7,7 @@ foreach ($prioritys as $key => $value) {
     $i++;
 }
 foreach ($tasks as $task) {
-    if (50 == $task->status) {
+    if (98 == $task->status) {
         $tcolor = 'text-success';
     } elseif (99 == $task->status) {
         $tcolor = 'text-muted';

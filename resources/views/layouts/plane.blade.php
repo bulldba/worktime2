@@ -32,6 +32,15 @@
     @yield('body')
 </div>
 
+<hr>
+<div class="container-fluid">
+    <p></p>
+    <p></p>
+<p class="text-center">aoktian@foxmail.com</p>
+    <p></p>
+    <p></p>
+</div>
+
 <script type="text/javascript">
 $.ajaxSetup({
     headers: {

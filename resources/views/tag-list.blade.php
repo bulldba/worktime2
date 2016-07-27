@@ -18,11 +18,11 @@
 </div>
 <div class="form-group">
 <label>开始：</label>
-<input name="row[t_start]" class="form-control" type="text" onclick="showcalendar(event, this, true)">
+<input name="row[t_start]" class="form-control" type="text" onclick="showcalendar(event, this)">
 </div>
 <div class="form-group">
 <label>结束：</label>
-<input name="row[t_end]" class="form-control" type="text" onclick="showcalendar(event, this, true)">
+<input name="row[t_end]" class="form-control" type="text" onclick="showcalendar(event, this)">
 </div>
 
 <button type="submit" class="btn btn-primary">添加</button>

@@ -192,16 +192,18 @@ function changeMore( ) {
   s += "&" + get_form_values( "changemoreform" );
 
   console.log( s );
+  var els = $("#changemoreform [itag='val']");
+  for (var i = 0; i < els.length; i++) {
+      var el = $(els[i]);
+      el.val( 0 );
+  }
 
   $.ajax({
-    data: s,
-    type: "GET",
-    url: '/task/index',
-    cache: false,
-    success: function( res ) {
+    url:'/task/index'
+  }).done(function(data){
       $("#tasklist").html( res );
-    }
   });
+
 }
 </script>
 @stop
