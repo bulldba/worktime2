@@ -19,16 +19,26 @@
 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 <div class="form-group">
     <div class="input-group input-group-lg">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+        <input class="form-control" placeholder="邮箱" type="email" name="email" value="" />
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="input-group input-group-lg">
         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
         <input class="form-control" placeholder="姓名" type="text" name="name" value="{{ old('name') }}" />
     </div>
 </div>
 <div class="form-group">
     <div class="input-group input-group-lg">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-        <input class="form-control" placeholder="邮箱" type="email" name="email" value="" />
+        <span class="input-group-addon"><i class="glyphicon glyphicon-th-large"></i></span>
+        <select name="department" class="form-control">
+@include('selection', ['data' => Config::get('worktime.department'), 'slt' => 1])
+        </select>
     </div>
 </div>
+
 <div class="form-group">
     <div class="input-group input-group-lg">
         <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>

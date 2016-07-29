@@ -102,7 +102,7 @@ class UserController extends Controller
             if ($me->id > 1) {
                 return redirect('user/index');
             }
-            
+
             $user = User::find( $id );
         } else {
             $user = $me;
@@ -111,7 +111,7 @@ class UserController extends Controller
         $password = $request->input( 'password' );
         if ($password) {
             $password_confirmation = $request->input( 'password_confirmation' );
-            
+
             if ($password != $password_confirmation) {
                 return redirect()->back()
                                 ->withErrors(['password_confirmation' => '两次输入的密码不一致。']);
@@ -121,6 +121,7 @@ class UserController extends Controller
         }
 
         $user->name = $request->input( 'name' );
+        $user->department = $request->input( 'department' );
 
         $user->save();
 

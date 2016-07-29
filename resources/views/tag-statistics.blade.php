@@ -16,12 +16,13 @@ $departments = Config::get('worktime.department');
 			<thead>
 				<tr>
                     <th width="100">#id</th>
-                    <th>进度</th>
                     <th width="80">总数量</th>
                     <th width="80">处理中</th>
                     <th width="80">已解决</th>
                     <th width="80">可测试</th>
+                    <th width="80">已通过</th>
                     <th width="80">完成</th>
+                    <th>进度</th>
 				</tr>
 			</thead>
 			<tbody>

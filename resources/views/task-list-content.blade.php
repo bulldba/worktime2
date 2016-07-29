@@ -29,4 +29,6 @@ foreach ($tasks as $task) {
 <td><?php echo $task->updated_at; ?></td>
 </tr>
 <?php } ?>
-<tr><td colspan="11"><nav> <?php echo $tasks->appends($options)->render( );?> </nav></td></tr>
+<tr><td colspan="11">
+@include('ajax-page')
+</td></tr>

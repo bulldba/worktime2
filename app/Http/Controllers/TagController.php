@@ -103,6 +103,7 @@ class TagController extends Controller
         ->where('tag', '=', $id)
         ->groupBy('leader')
         ->groupBy('status')
+        ->orderBy('department')
         ->get();
 
         $s_leader = array();

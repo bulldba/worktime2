@@ -167,8 +167,12 @@
 @section('js')
 
 <script type="text/javascript">
-function taskFilter( ) {
-  var s = get_form_values( "taskfilter" );
+var page = 1;
+function taskFilter( _page ) {
+  if (_page) {
+    page = _page;
+  }
+  var s = "page=" + page + "&" + get_form_values( "taskfilter" );
   console.log(s);
   $.ajax({
     data: s,
@@ -189,21 +193,32 @@ function changeMore( ) {
     alert( "没有选择任务" );
     return;
   }
-  s += "&" + get_form_values( "changemoreform" );
 
-  console.log( s );
+  var changed = false;
   var els = $("#changemoreform [itag='val']");
   for (var i = 0; i < els.length; i++) {
       var el = $(els[i]);
-      el.val( 0 );
+      var va = el.val();
+      if (va > 0) {
+        s += "&" + el.prop("name") + "=" + va;
+        el.val( 0 );
+        changed = true;
+      }
+  }
+  if (!changed) {
+    alert( "没有变化" );
+    return;
   }
 
+  s += "&page=" + page + "&" + get_form_values( "taskfilter" );
+  console.log( s );
+
   $.ajax({
+    data: s,
     url:'/task/index'
   }).done(function(data){
-      $("#tasklist").html( res );
+      $("#tasklist").html( data );
   });
-
 }
 </script>
 @stop

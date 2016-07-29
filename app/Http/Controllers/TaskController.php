@@ -73,30 +73,40 @@ class TaskController extends Controller
             $query->where( "title", 'like', '%'.$title.'%' );
         }
 
+        $totalnum = $query->count();
+        $curpage = $request->input( 'page', 1 );
+        $perpage = 20;
+        $offset = $this->page_get_start($curpage, $perpage, $totalnum);
+
         $tasks = $query->orderBy('status')
         ->orderBy('tag', 'desc')
         ->orderBy('priority', 'desc')
-        ->paginate( 20 );
+        ->skip($offset)->take($perpage)
+        ->get( );
 
         $tpl = 'task-list';
         if ($request->ajax()) {
             $tpl = 'task-list-content';
         }
 
-        foreach ($options as $key => $value) {
-            $tasks->appends([ $key => $value]);
-        }
-
         return view($tpl, [
             'tasks' => $tasks,
             'users' => User::all()->keyBy( 'id' ),
             'tags' => Tag::orderBy( 'id', 'desc' )->get( )->keyBy( 'id' ),
-            'options' => $options,
             'status' => Config::get('worktime.status'),
             'catys' => Config::get('worktime.caty'),
             'prioritys' => Config::get('worktime.priority'),
-            'departments' => Config::get('worktime.department')
+            'departments' => Config::get('worktime.department'),
+            'totalnum' => $totalnum,
+            'curpage' => $curpage,
+            'perpage' => $perpage
             ]);
+    }
+
+    public function page_get_start($page, $ppp, $totalnum) {
+        $totalpage = ceil($totalnum / $ppp);
+        $page =  max(1, min($totalpage, intval($page)));
+        return ($page - 1) * $ppp;
     }
 
     public function getCreate()
