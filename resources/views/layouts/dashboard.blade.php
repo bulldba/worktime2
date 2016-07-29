@@ -6,11 +6,12 @@
 <hr />
 <div class="row">
 
-  <div class="col-lg-2">
+  <div class="col-lg-1">
 
 <div class="list-group">
+  <a href="/pro/index" class="list-group-item{{ Request::is('pro/*') ? ' active' : '' }}">项目</a>
+  <a href="/tag/index" class="list-group-item{{ Request::is('tag/*') ? ' active' : '' }}">版本</a>
   <a href="/task/index" class="list-group-item{{ Request::is('task/*') || Request::is('/') ? ' active' : '' }}">任务清单</a>
-  <a href="/tag/index" class="list-group-item{{ Request::is('tag/*') ? ' active' : '' }}">标签/版本</a>
   <a href="/user/index" class="list-group-item{{ Request::is('user/*') ? ' active' : '' }}">成员</a>
   <a target="_blank" href="http://www.chiark.greenend.org.uk/~sgtatham/bugs-cn.html" class="list-group-item">如何报告BUG</a>
 </div>
@@ -24,7 +25,7 @@
 
 
 </div>
-<div class="col-lg-10">
+<div class="col-lg-11">
 @yield('main')
 </div>
 

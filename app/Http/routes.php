@@ -37,3 +37,4 @@ Route::controller('task', 'TaskController');
 Route::controller('feedback', 'FeedbackController');
 Route::controller('user', 'UserController');
 Route::controller('tag', 'TagController');
+Route::controller('pro', 'ProController');

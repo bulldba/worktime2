@@ -16,17 +16,17 @@ foreach ($tasks as $task) {
     }
 ?>
 <tr class="{{$tcolor}}">
-<td><input itag="val" name="ids[]" type="checkbox" value="<?php echo $task->id; ?>"></td>
-<td><?php echo $task->id; ?></td>
-<td><?php echo $status[$task->status]; ?></td>
-<td><?php echo $prioritys[$task->priority]; ?></td>
-<td><?php echo $catys[$task->caty]; ?></td>
-<td class="text-left"><a class="{{$tcolor}}" href="/task/show/<?php echo $task->id;?>" target="_blank"><?php echo $task->title; ?></a></td>
-<td><?php echo $users[$task->leader]->name; ?></td>
-<td><?php echo $departments[$task->department]; ?></td>
-<td><?php echo $tags[$task->tag]->name; ?></td>
-<td><?php echo $users[$task->author]->name; ?></td>
-<td><?php echo $task->updated_at; ?></td>
+<td><input itag="val" name="ids[]" type="checkbox" value="{{$task->id}}"></td>
+<td>{{$task->id}}</td>
+<td>{{$status[$task->status]}}</td>
+<td>{{$prioritys[$task->priority]}}</td>
+<td>{{$catys[$task->caty]}}</td>
+<td><a class="{{$tcolor}}" href="/task/show/{{$task->id}}" target="_blank">{{$task->title}}</a></td>
+<td>{{$users[$task->leader]->name}}</td>
+<td>{{$departments[$task->department]}}</td>
+<td>{{$pros[$task->pro]->name . ' - ' . $tags[$task->tag]->name}}</td>
+<td>{{$users[$task->author]->name}}</td>
+<td>{{$task->updated_at}}</td>
 </tr>
 <?php } ?>
 <tr><td colspan="11">

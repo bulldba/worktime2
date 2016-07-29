@@ -3,8 +3,6 @@
 
 @section('main')
 
-<h1>#{{$task->id}} {{$task->title}}</h1>
-<hr />
 
 <div class="row">
 
@@ -40,7 +38,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">归属：</span>
+        <span class="input-group-addon">部门：</span>
 <select itag="val" name="row[department]" class="form-control">
 @include('selection', ['data' => Config::get('worktime.department'), 'slt' => $task->department])
 </select>
@@ -49,9 +47,15 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">计划：</span>
+        <span class="input-group-addon">版本：</span>
 <select itag="val" name="row[tag]" class="form-control">
-@include('selection-users', ['data' => $tags, 'slt' => $task->tag])
+<?php
+$pro_tag = array();
+foreach ($tags as $value) {
+    $pro_tag[$value->id] = $pros[$value->pro]->name.' - '.$value->name;
+}
+?>
+@include('selection', ['data' => $pro_tag, 'slt' => $task->tag])
 </select>
     </div>
     </div>
@@ -65,8 +69,9 @@
     </div>
     </div>
 
-    <button onclick="updateTaskOnchange({{$task->id}});" class="btn btn-danger">修改属性</button>
+    <button onclick="updateTaskOnchange({{$task->id}});" class="btn btn-danger margin-right">修改属性</button>
 
+    <a href="/task/edit/{{$task->id}}" class="btn btn-success">重新编辑</a>
 </div>
 
   <p></p>
@@ -79,22 +84,21 @@
   <div class="col-lg-12" id="task-content">
 <div class="panel panel-primary">
     <div class="panel-heading">
-      <div class="row">
-<div class="col-sm-2">
-作者：{{$users[$task->author]->name}}
-</div>
-<div class="col-sm-2">
-提交：{{$task->created_at}}
-</div>
-<div class="col-sm-2">
-修改：{{$task->updated_at}}
-</div>
-      </div>
+<h1>#{{$task->id}} {{$task->title}}</h1>
     </div>
-    <div class="panel-body"> {!!$task->content!!} </div>
+    <div class="panel-body">
+      <p>
+报告人：{{$users[$task->author]->name}}
+提交：{{$task->created_at}}
+修改：{{$task->updated_at}}
+      </p>
+
+      <hr />
+
+      {!!$task->content!!} </div>
     <!-- /.panel-body -->
-    <div class="panel-footer"><a href="/task/edit/{{$task->id}}" class="btn btn-success">编辑</a></div>
 </div>
+
 
 @foreach ($feedbacks as $feedback)
 <div class="panel panel-{{$feedback->id%2 ? 'success' : 'info'}}">
@@ -110,13 +114,15 @@
 <div class="col-sm-2">
 修改：{{$feedback->created_at}}
 </div>
+<div class="col-sm-2">
+<a href="/feedback/edit/{{$feedback->id}}">重新编辑</a>
+</div>
       </div>
     </div>
     <div class="panel-body">
 {!!$feedback->message!!}
     </div>
     <!-- /.panel-body -->
-    <div class="panel-footer"><a href="/feedback/edit/{{$feedback->id}}" class="btn btn-success">编辑</a></div>
 </div>
 @endforeach
 
@@ -155,13 +161,14 @@
 <div class="col-sm-2">
 修改：[[updated_at]]
 </div>
-
+<div class="col-sm-2">
+<a href="/feedback/edit/[[id]]">重新编辑</a>
+</div>
       </div>
     </div>
     <div class="panel-body">
 [[message]]
     </div>
-    <div class="panel-footer"><a href="/feedback/edit/[[id]]" class="btn btn-danger">编辑</a></div>
     <!-- /.panel-body -->
 </div>
 </div>

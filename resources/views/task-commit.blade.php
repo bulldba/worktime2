@@ -53,7 +53,7 @@
   <div class="col-sm-2">
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">归属：</span>
+        <span class="input-group-addon">部门：</span>
         <select name="row[department]" class="form-control">
 @include('selection', ['data' => Config::get('worktime.department'), 'slt' => $task->department])
         </select>
@@ -63,9 +63,15 @@
   <div class="col-sm-2">
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">计划：</span>
+        <span class="input-group-addon">版本：</span>
         <select name="row[tag]" class="form-control">
-@include('selection-users', ['data' => $tags, 'slt' => $task->tag])
+<?php
+$pro_tag = array();
+foreach ($tags as $value) {
+    $pro_tag[$value->id] = $pros[$value->pro]->name.' - '.$value->name;
+}
+?>
+@include('selection', ['data' => $pro_tag, 'slt' => $task->tag])
         </select>
     </div>
     </div>

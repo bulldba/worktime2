@@ -1,3 +1,3 @@
-@foreach ($data as $k => $v)
-<option value="{{$k}}" {{$k == $slt ? 'selected' : ''}}>{{$v->name}}</option>
+@foreach ($data as $v)
+<option value="{{$v->id}}" {{$v->id == $slt ? 'selected' : ''}}>{{$v->name}}</option>
 @endforeach

@@ -9,6 +9,7 @@ use App\Task;
 use App\Tag;
 use App\User;
 use App\Feedback;
+use App\Pro;
 use Input;
 
 use Illuminate\Http\Request;
@@ -43,6 +44,11 @@ class TaskController extends Controller
                 if ($value > 0) {
                     $updates[$key] = $value;
                 }
+            }
+
+            if (isset($updates['tag'])) {
+                $tag = Tag::find( $updates['tag'] );
+                $updates['pro'] = $tag->pro;
             }
 
             if ($updates) {
@@ -91,12 +97,14 @@ class TaskController extends Controller
 
         return view($tpl, [
             'tasks' => $tasks,
+            'pros' => Pro::all( )->keyBy('id'),
             'users' => User::all()->keyBy( 'id' ),
             'tags' => Tag::orderBy( 'id', 'desc' )->get( )->keyBy( 'id' ),
             'status' => Config::get('worktime.status'),
             'catys' => Config::get('worktime.caty'),
             'prioritys' => Config::get('worktime.priority'),
             'departments' => Config::get('worktime.department'),
+            'options' => $options,
             'totalnum' => $totalnum,
             'curpage' => $curpage,
             'perpage' => $perpage
@@ -111,10 +119,12 @@ class TaskController extends Controller
 
     public function getCreate()
     {
+
         return view('task-commit', [
             'task' => new Task,
-            'users' => User::all()->keyBy( 'id' ),
-            'tags' => Tag::orderBy( 'id', 'desc' )->get( )->keyBy( 'id' )
+            'users' => User::all(),
+            'pros' => Pro::all( )->keyBy('id'),
+            'tags' => Tag::orderBy( 'id', 'desc' )->get( )
             ]);
     }
 
@@ -139,6 +149,9 @@ class TaskController extends Controller
             $task->$key = $value;
         }
 
+        $tag = Tag::find( $task->tag );
+        $task->pro = $tag->pro;
+
         $task->save( );
 
         return redirect('task/show/'.$task->id);
@@ -156,7 +169,8 @@ class TaskController extends Controller
             'task' => Task::find( $id ),
             'feedbacks' => Feedback::where( 'pid', $id )->get( ),
             'users' => User::all()->keyBy( 'id' ),
-            'tags' => Tag::all( )->keyBy( 'id' )
+            'pros' => Pro::all( )->keyBy('id'),
+            'tags' => Tag::all( )
         ]);
     }
 

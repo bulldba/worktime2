@@ -1,6 +1,6 @@
 <?php
 
-use App\Tag;
+use DB;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,9 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call(UserTableSeeder::class);
-
-        Tag::create(['name' => 'default']);
+        DB::table('pros')->insert(['name' => 'default']);
+        DB::table('tags')->insert(['name' => 'default', 'pro' => 1]);
 
         Model::reguard();
     }

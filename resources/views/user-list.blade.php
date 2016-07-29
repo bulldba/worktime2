@@ -6,7 +6,7 @@
 
 <div class="row">
 	<div class="col-lg-6">
-		<table class="table table-bordered table-striped table-hover vertical-middle">
+		<table class="table table-bordered table-striped table-hover">
 			<thead>
 				<tr>
                     <th width="50">#id</th>
@@ -25,10 +25,10 @@ foreach ($users as $user) { ?>
 <tr>
 	<td>{{$user->id}}</td>
     <td>{{$user->email}}</td>
-    <td>{{$user->name}}</td>
+    <td><a href="/user/edit/{{$user->id}}">{{$user->name}}</a></td>
 	<td>{{$departments[$user->department]}}</td>
 	<td>
-<a href="/user/edit/{{$user->id}}" class="btn btn-link">修改</a>
+<a href="#">删除</a>
 	</td>
 </tr>
 <?php } ?>

@@ -7,6 +7,7 @@ use Config;
 use Auth;
 use App\Tag;
 use App\User;
+use App\Pro;
 
 use Illuminate\Http\Request;
 
@@ -28,7 +29,8 @@ class TagController extends Controller
     public function getIndex()
     {
         return view('tag-list', [
-            'tags' => Tag::all()
+            'tags' => Tag::all(),
+            'pros' => Pro::all( )
             ]);
     }
 
@@ -56,9 +58,16 @@ class TagController extends Controller
         } else {
             $tag = new Tag;
         }
+
+        $oldpro = $tag->pro;
         foreach ($request->input('row') as $key => $value) {
             $tag->$key = $value;
         }
+
+        if ($tag->pro != $oldpro) {
+            DB::table('tasks')->where('tag', '=', $tag->id)->update(['pro' => $tag->pro]);
+        }
+
         $tag->save( );
 
         return redirect('tag/index');

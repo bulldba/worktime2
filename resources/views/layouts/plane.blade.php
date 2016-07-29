@@ -9,7 +9,7 @@
 <meta name="author" content="">
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-<title>worktime - @yield('title')</title>
+<title>@yield('title') - worktime</title>
 
 <!-- Bootstrap core CSS -->
 <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
