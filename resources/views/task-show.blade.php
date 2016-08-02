@@ -218,11 +218,10 @@ function updateTaskOnchange( id ) {
   $.ajax({
     data: s + "&id=" + id,
     type: "POST",
-    url: '/task/update',
+    url: '/task/store',
     cache: false,
-    dataType: "json",
-    success: function( res ) {
-      alert("保存成功......");
+    success: function( ) {
+      alert("修改成功...");
     }
   });
 }

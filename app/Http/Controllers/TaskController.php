@@ -145,7 +145,8 @@ class TaskController extends Controller
             $task->status = 12;
         }
 
-        foreach ($request->input('row') as $key => $value) {
+        $row = $request->input('row');
+        foreach ($row as $key => $value) {
             $task->$key = $value;
         }
 
@@ -154,7 +155,11 @@ class TaskController extends Controller
 
         $task->save( );
 
-        return redirect('task/show/'.$task->id);
+        if ($request->ajax()) {
+            return '';
+        } else {
+            return redirect('task/show/'.$task->id);
+        }
     }
 
     /**
