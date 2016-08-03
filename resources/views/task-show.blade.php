@@ -11,7 +11,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">负责人：</span>
+        <span class="input-group-addon">负责人</span>
 <select itag="val" name="row[leader]" class="form-control">
 @include('selection-users', ['data' => $users, 'slt' => $task->leader])
 </select>
@@ -20,7 +20,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">类型：</span>
+        <span class="input-group-addon">类型</span>
 <select itag="val" name="row[caty]" class="form-control">
 @include('selection', ['data' => Config::get('worktime.caty'), 'slt' => $task->caty])
 </select>
@@ -29,7 +29,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">优先级：</span>
+        <span class="input-group-addon">优先级</span>
 <select itag="val" name="row[priority]" class="form-control">
 @include('selection', ['data' => Config::get('worktime.priority'), 'slt' => $task->priority])
 </select>
@@ -38,7 +38,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">部门：</span>
+        <span class="input-group-addon">部门</span>
 <select itag="val" name="row[department]" class="form-control">
 @include('selection', ['data' => Config::get('worktime.department'), 'slt' => $task->department])
 </select>
@@ -47,7 +47,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">版本：</span>
+        <span class="input-group-addon">版本</span>
 <select itag="val" name="row[tag]" class="form-control">
 <?php
 $pro_tag = array();
@@ -62,7 +62,7 @@ foreach ($tags as $value) {
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">状态：</span>
+        <span class="input-group-addon">状态</span>
 <select itag="val" name="row[status]" class="form-control">
 @include('selection', ['data' => Config::get('worktime.status'), 'slt' => $task->status])
 </select>

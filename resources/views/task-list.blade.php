@@ -39,7 +39,7 @@
 <div class="form-inline" id="taskfilter">
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">状态：</span>
+        <span class="input-group-addon">状态</span>
 <select itag="val" name="search[status]" class="form-control">
 <option value="0">全部</option>
 @include('selection', ['data' => $status, 'slt' => isset($options['status']) ? $options['status'] : 0])
@@ -49,7 +49,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">优先级：</span>
+        <span class="input-group-addon">优先级</span>
 <select itag="val" name="search[priority]" class="form-control">
 <option value="0">全部</option>
 @include('selection', ['data' => $prioritys, 'slt' => isset($options['priority']) ? $options['priority'] : 0])
@@ -60,7 +60,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">类型：</span>
+        <span class="input-group-addon">类型</span>
 <select itag="val" name="search[caty]" class="form-control">
 <option value="0">全部</option>
 @include('selection', ['data' => $catys, 'slt' => isset($options['caty']) ? $options['caty'] : 0])
@@ -70,7 +70,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">负责人：</span>
+        <span class="input-group-addon">负责人</span>
 <select itag="val" name="search[leader]" class="form-control">
 <option value="0">全部</option>
 @include('selection-users', ['data' => $users, 'slt' => isset($options['leader']) ? $options['leader'] : 0])
@@ -80,7 +80,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">部门：</span>
+        <span class="input-group-addon">部门</span>
 <select itag="val" name="search[department]" class="form-control">
 <option value="0">全部</option>
 @include('selection', ['data' => $departments, 'slt' => isset($options['department']) ? $options['department'] : 0])
@@ -90,7 +90,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">项目：</span>
+        <span class="input-group-addon">项目</span>
 <select itag="val" name="search[pro]" class="form-control">
 <option value="0">全部</option>
 @include('selection-users', ['data' => $pros, 'slt' => isset($options['pro']) ? $options['pro'] : 0])
@@ -100,7 +100,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">版本：</span>
+        <span class="input-group-addon">版本</span>
 <select itag="val" name="search[tag]" class="form-control">
 <option value="0">全部</option>
 @include('selection-users', ['data' => $tags, 'slt' => isset($options['tag']) ? $options['tag'] : 0])
@@ -110,7 +110,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">报告人：</span>
+        <span class="input-group-addon">报告人</span>
 <select itag="val" name="search[author]" class="form-control">
 <option value="0">全部</option>
 @include('selection-users', ['data' => $users, 'slt' => isset($options['author']) ? $options['author'] : 0])
@@ -131,7 +131,7 @@
   <thead>
     <tr>
         <th width="20">
-<input type="checkbox"></th>
+<input type="checkbox" onclick="checkall('tasklist', 'ids[]',  $(this).prop('checked') );"></th>
         <th width="50">编号</th>
         <th width="80">状态 </th>
         <th width="80">优先级 </th>
@@ -155,7 +155,7 @@
 <div class="form-inline" id="changemoreform">
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">状态：</span>
+        <span class="input-group-addon">状态</span>
 <select itag="val" name="changeto[status]" class="form-control">
 <option value="0">不修改</option>
 @include('selection', ['data' => $status, 'slt' => 0])
@@ -165,7 +165,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">优先级：</span>
+        <span class="input-group-addon">优先级</span>
 <select itag="val" name="changeto[priority]" class="form-control">
 <option value="0">不修改</option>
 @include('selection', ['data' => $prioritys, 'slt' => 0])
@@ -175,7 +175,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">类型：</span>
+        <span class="input-group-addon">类型</span>
 <select itag="val" name="changeto[caty]" class="form-control">
 <option value="0">不修改</option>
 @include('selection', ['data' => $catys, 'slt' => 0])
@@ -185,7 +185,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">负责人：</span>
+        <span class="input-group-addon">负责人</span>
 <select itag="val" name="changeto[leader]" class="form-control">
 <option value="0">不修改</option>
 @include('selection-users', ['data' => $users, 'slt' => 0])
@@ -195,7 +195,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">部门：</span>
+        <span class="input-group-addon">部门</span>
 <select itag="val" name="changeto[department]" class="form-control">
 <option value="0">不修改</option>
 @include('selection', ['data' => $departments, 'slt' => 0])
@@ -205,7 +205,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">版本：</span>
+        <span class="input-group-addon">版本</span>
 <select itag="val" name="changeto[tag]" class="form-control">
 <option value="0">不修改</option>
 @include('selection-users', ['data' => $tags, 'slt' => 0])
@@ -250,6 +250,24 @@ function getlist( s ) {
 }
 
 setInterval( "taskFilter( );", 1000 * 60 * 5 );
+
+function checkall( id, name, b ) {
+    var els = $("#" + id + " :checkbox");
+    for (var i = 0; i < els.length; i++) {
+        var el = $(els[i]);
+        if (name == el.prop("name")) {
+            if ("undefined" == typeof(b) ) {
+                if (el.prop("checked")) {
+                    el.prop("checked", false);
+                } else {
+                    el.prop("checked", true);
+                }
+            } else{
+                el.prop("checked", b);
+            }
+        }
+    }
+}
 
 function changeMore( ) {
   var s = get_form_values( "tasklist" );

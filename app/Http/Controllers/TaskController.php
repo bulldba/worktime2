@@ -87,6 +87,7 @@ class TaskController extends Controller
         $tasks = $query->orderBy('status')
         ->orderBy('tag', 'desc')
         ->orderBy('priority', 'desc')
+        ->orderBy('id', 'desc')
         ->skip($offset)->take($perpage)
         ->get( );
 
@@ -119,7 +120,6 @@ class TaskController extends Controller
 
     public function getCreate()
     {
-
         return view('task-commit', [
             'task' => new Task,
             'users' => User::all(),
@@ -189,9 +189,10 @@ class TaskController extends Controller
     {
         return view('task-commit', [
             'task' => Task::find( $id ),
-            'tags' => Tag::orderBy( 'id', 'desc' )->get( )->keyBy( 'id' ),
-            'users' => User::all()->keyBy( 'id' )
-        ]);
+            'users' => User::all(),
+            'pros' => Pro::all( )->keyBy('id'),
+            'tags' => Tag::orderBy( 'id', 'desc' )->get( )
+            ]);
     }
 
     /**

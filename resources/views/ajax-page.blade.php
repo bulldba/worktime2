@@ -24,7 +24,7 @@ if ($totalnum > $perpage) {
     }
 ?>
 <nav>
-  <ul class="pagination">
+  <ul class="pagination" style="margin:0;">
 @if ($curpage - $offset > 1 && $pages > $page)
 <li><a href="javascript:taskFilter(1);">首页</a></li>
 @endif
