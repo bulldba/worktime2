@@ -26,8 +26,7 @@
 </div>
 
 <div class="col-lg-3">
-  <a href="/task/create" class="btn btn-success margin-right"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加新任务</a>
-  <button type="button" class="btn btn-warning margin-right" onclick='taskFilter();'><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> 刷新</button>
+  <a href="/task/create" class="btn btn-primary margin-right"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加新任务</a>
 </div>
 
 </div>
@@ -40,7 +39,7 @@
     <div class="form-group">
     <div class="input-group">
         <span class="input-group-addon">状态</span>
-<select itag="val" name="search[status]" class="form-control">
+<select onchange="taskFilter( 1 );" itag="val" name="search[status]" class="form-control">
 <option value="0">全部</option>
 @include('selection', ['data' => $status, 'slt' => isset($options['status']) ? $options['status'] : 0])
 </select>
@@ -50,7 +49,7 @@
     <div class="form-group">
     <div class="input-group">
         <span class="input-group-addon">优先级</span>
-<select itag="val" name="search[priority]" class="form-control">
+<select onchange="taskFilter( 1 );" itag="val" name="search[priority]" class="form-control">
 <option value="0">全部</option>
 @include('selection', ['data' => $prioritys, 'slt' => isset($options['priority']) ? $options['priority'] : 0])
 </select>
@@ -61,7 +60,7 @@
     <div class="form-group">
     <div class="input-group">
         <span class="input-group-addon">类型</span>
-<select itag="val" name="search[caty]" class="form-control">
+<select onchange="taskFilter( 1 );" itag="val" name="search[caty]" class="form-control">
 <option value="0">全部</option>
 @include('selection', ['data' => $catys, 'slt' => isset($options['caty']) ? $options['caty'] : 0])
 </select>
@@ -71,7 +70,7 @@
     <div class="form-group">
     <div class="input-group">
         <span class="input-group-addon">负责人</span>
-<select itag="val" name="search[leader]" class="form-control">
+<select onchange="taskFilter( 1 );" itag="val" name="search[leader]" class="form-control">
 <option value="0">全部</option>
 @include('selection-users', ['data' => $users, 'slt' => isset($options['leader']) ? $options['leader'] : 0])
 </select>
@@ -81,7 +80,7 @@
     <div class="form-group">
     <div class="input-group">
         <span class="input-group-addon">部门</span>
-<select itag="val" name="search[department]" class="form-control">
+<select onchange="taskFilter( 1 );" itag="val" name="search[department]" class="form-control">
 <option value="0">全部</option>
 @include('selection', ['data' => $departments, 'slt' => isset($options['department']) ? $options['department'] : 0])
 </select>
@@ -91,7 +90,7 @@
     <div class="form-group">
     <div class="input-group">
         <span class="input-group-addon">项目</span>
-<select itag="val" name="search[pro]" class="form-control">
+<select onchange="taskFilter( 1 );" itag="val" name="search[pro]" class="form-control">
 <option value="0">全部</option>
 @include('selection-users', ['data' => $pros, 'slt' => isset($options['pro']) ? $options['pro'] : 0])
 </select>
@@ -101,7 +100,7 @@
     <div class="form-group">
     <div class="input-group">
         <span class="input-group-addon">版本</span>
-<select itag="val" name="search[tag]" class="form-control">
+<select onchange="taskFilter( 1 );" itag="val" name="search[tag]" class="form-control">
 <option value="0">全部</option>
 @include('selection-users', ['data' => $tags, 'slt' => isset($options['tag']) ? $options['tag'] : 0])
 </select>
@@ -111,14 +110,12 @@
     <div class="form-group">
     <div class="input-group">
         <span class="input-group-addon">报告人</span>
-<select itag="val" name="search[author]" class="form-control">
+<select onchange="taskFilter( 1 );" itag="val" name="search[author]" class="form-control">
 <option value="0">全部</option>
 @include('selection-users', ['data' => $users, 'slt' => isset($options['author']) ? $options['author'] : 0])
 </select>
     </div>
     </div>
-
-    <button onclick="page = 1;taskFilter( );" class="btn btn-danger">筛选</button>
 
 </div>
 
@@ -134,8 +131,8 @@
 <input type="checkbox" onclick="checkall('tasklist', 'ids[]',  $(this).prop('checked') );"></th>
         <th width="50">编号</th>
         <th width="80">状态 </th>
-        <th width="80">优先级 </th>
-        <th width="80">类型 </th>
+        <th width="30">优</th>
+        <th width="50">类型 </th>
         <th>标题 </th>
         <th width="80">负责人 </th>
         <th width="80">部门 </th>

@@ -18,7 +18,7 @@
 
 <div class="list-group">
   <a href="/task/ido" class="list-group-item">分配给我</a>
-  <a href="/task/icommit" class="list-group-item">我的作品</a>
+  <a href="/task/icommit" class="list-group-item">我的报告</a>
   <a href="/user/edit/{{Auth::user()->id}}" class="list-group-item">修改密码</a>
   <a href="{{ url ('auth/logout') }}" class="list-group-item">退出</a>
 </div>
