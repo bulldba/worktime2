@@ -20,7 +20,7 @@ location / {
 
 ##基本配置
 .env 文件可以修改数据库配置<br>
-mysql 里面要先创建一个数据库<br>
+mysql 里面要先创建一个数据库，例如：CREATE DATABASE IF NOT EXISTS worktime DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;<br>
 执行命令创建数据库表 php artisan migrate<br>
 chmod 777 -R storage<br>
 开发环境下，也可以使用php自带的webserver 命令：php artisan serve --port=8080<br>
