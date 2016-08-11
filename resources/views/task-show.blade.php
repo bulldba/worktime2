@@ -71,7 +71,6 @@ foreach ($tags as $value) {
 
     <button onclick="updateTaskOnchange({{$task->id}});" class="btn btn-danger margin-right">修改属性</button>
 
-    <a href="/task/edit/{{$task->id}}" class="btn btn-success">重新编辑</a>
 </div>
 
   <p></p>
@@ -79,13 +78,11 @@ foreach ($tags as $value) {
 
 </div>
 
+<h1><a href="/task/edit/{{$task->id}}">#{{$task->id}} {{$task->title}}</a></h1>
 
 <div class="row">
   <div class="col-lg-12" id="task-content">
 <div class="panel panel-primary">
-    <div class="panel-heading">
-<h1>#{{$task->id}} {{$task->title}}</h1>
-    </div>
     <div class="panel-body">
       <p>
 报告人：{{$users[$task->author]->name}}

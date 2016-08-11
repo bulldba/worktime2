@@ -30,115 +30,61 @@
 </div>
 
 </div>
-
 </div>
 
-<div class="row">
-  <div class="col-lg-12">
-<div class="form-inline" id="taskfilter">
-    <div class="form-group">
-    <div class="input-group">
-        <span class="input-group-addon">状态</span>
-<select onchange="taskFilter( 1 );" itag="val" name="search[status]" class="form-control">
-<option value="0">全部</option>
-@include('selection', ['data' => $status, 'slt' => isset($options['status']) ? $options['status'] : 0])
-</select>
-    </div>
-    </div>
-
-    <div class="form-group">
-    <div class="input-group">
-        <span class="input-group-addon">优先级</span>
-<select onchange="taskFilter( 1 );" itag="val" name="search[priority]" class="form-control">
-<option value="0">全部</option>
-@include('selection', ['data' => $prioritys, 'slt' => isset($options['priority']) ? $options['priority'] : 0])
-</select>
-    </div>
-    </div>
-
-
-    <div class="form-group">
-    <div class="input-group">
-        <span class="input-group-addon">类型</span>
-<select onchange="taskFilter( 1 );" itag="val" name="search[caty]" class="form-control">
-<option value="0">全部</option>
-@include('selection', ['data' => $catys, 'slt' => isset($options['caty']) ? $options['caty'] : 0])
-</select>
-    </div>
-    </div>
-
-    <div class="form-group">
-    <div class="input-group">
-        <span class="input-group-addon">负责人</span>
-<select onchange="taskFilter( 1 );" itag="val" name="search[leader]" class="form-control">
-<option value="0">全部</option>
-@include('selection-users', ['data' => $users, 'slt' => isset($options['leader']) ? $options['leader'] : 0])
-</select>
-    </div>
-    </div>
-
-    <div class="form-group">
-    <div class="input-group">
-        <span class="input-group-addon">部门</span>
-<select onchange="taskFilter( 1 );" itag="val" name="search[department]" class="form-control">
-<option value="0">全部</option>
-@include('selection', ['data' => $departments, 'slt' => isset($options['department']) ? $options['department'] : 0])
-</select>
-    </div>
-    </div>
-
-    <div class="form-group">
-    <div class="input-group">
-        <span class="input-group-addon">项目</span>
-<select onchange="taskFilter( 1 );" itag="val" name="search[pro]" class="form-control">
-<option value="0">全部</option>
-@include('selection-users', ['data' => $pros, 'slt' => isset($options['pro']) ? $options['pro'] : 0])
-</select>
-    </div>
-    </div>
-
-    <div class="form-group">
-    <div class="input-group">
-        <span class="input-group-addon">版本</span>
-<select onchange="taskFilter( 1 );" itag="val" name="search[tag]" class="form-control">
-<option value="0">全部</option>
-@include('selection-users', ['data' => $tags, 'slt' => isset($options['tag']) ? $options['tag'] : 0])
-</select>
-    </div>
-    </div>
-
-    <div class="form-group">
-    <div class="input-group">
-        <span class="input-group-addon">报告人</span>
-<select onchange="taskFilter( 1 );" itag="val" name="search[author]" class="form-control">
-<option value="0">全部</option>
-@include('selection-users', ['data' => $users, 'slt' => isset($options['author']) ? $options['author'] : 0])
-</select>
-    </div>
-    </div>
-
-</div>
-
-  </div>
-</div>
-
-<hr>
-
-<table class="table table-striped vertical-middle">
-  <thead>
+<table class="table table-bordered table-hover table-striped vertical-middle text-center">
+  <thead id="taskfilter">
     <tr>
         <th width="20">
 <input type="checkbox" onclick="checkall('tasklist', 'ids[]',  $(this).prop('checked') );"></th>
-        <th width="50">编号</th>
-        <th width="80">状态 </th>
-        <th width="30">优</th>
-        <th width="50">类型 </th>
+        <th width="100">
+<select onchange="taskFilter( 1 );" itag="val" name="search[status]" class="form-control">
+<option value="0">状态</option>
+@include('selection', ['data' => $status, 'slt' => isset($options['status']) ? $options['status'] : 0])
+</select></th>
+        <th width="80">
+<select onchange="taskFilter( 1 );" itag="val" name="search[priority]" class="form-control">
+<option value="0">优</option>
+@include('selection', ['data' => $prioritys, 'slt' => isset($options['priority']) ? $options['priority'] : 0])
+</select>
+        </th>
+        <th width="100">
+<select onchange="taskFilter( 1 );" itag="val" name="search[caty]" class="form-control">
+<option value="0">类型</option>
+@include('selection', ['data' => $catys, 'slt' => isset($options['caty']) ? $options['caty'] : 0])
+</select>
+        </th>
         <th>标题 </th>
-        <th width="80">负责人 </th>
-        <th width="80">部门 </th>
-        <th width="100">版本 </th>
-        <th width="80">报告人 </th>
-        <th width="250">修改日期</th>
+        <th width="100">
+<select onchange="taskFilter( 1 );" itag="val" name="search[leader]" class="form-control">
+<option value="0">负责</option>
+@include('selection-users', ['data' => $users, 'slt' => isset($options['leader']) ? $options['leader'] : 0])
+</select>
+        </th>
+        <th width="100">
+<select onchange="taskFilter( 1 );" itag="val" name="search[department]" class="form-control">
+<option value="0">部门</option>
+@include('selection', ['data' => $departments, 'slt' => isset($options['department']) ? $options['department'] : 0])
+</select>
+        </th>
+        <th width="100">
+<select onchange="taskFilter( 1 );" itag="val" name="search[pro]" class="form-control">
+<option value="0">项目</option>
+@include('selection-users', ['data' => $pros, 'slt' => isset($options['pro']) ? $options['pro'] : 0])
+</select>
+        </th>
+        <th width="100">
+<select onchange="taskFilter( 1 );" itag="val" name="search[tag]" class="form-control">
+<option value="0">版本</option>
+@include('selection-users', ['data' => $tags, 'slt' => isset($options['tag']) ? $options['tag'] : 0])
+</select>
+        </th>
+        <th width="100">
+<select onchange="taskFilter( 1 );" itag="val" name="search[author]" class="form-control">
+<option value="0">报告</option>
+@include('selection-users', ['data' => $users, 'slt' => isset($options['author']) ? $options['author'] : 0])
+</select>
+        </th>
     </tr>
   </thead>
   <tbody id="tasklist">
