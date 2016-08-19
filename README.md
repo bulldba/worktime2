@@ -1,22 +1,13 @@
 #worktime2
 一款轻量级研发项目管理工具，主要针对中小互联网敏捷开发团队，页面清爽简单，功能精简好用。
 
+##体验地址
+http://120.132.69.194/
+
 ##使用框架 laravel 5.1
 相关文档可以参考<br>
 http://laravel-china.org/docs/5.1<br>
 http://www.golaravel.com/laravel/docs/5.1/<br>
-
-##php 的要求
-自行安装吧<br>
-PHP >= 5.5.9 - OpenSSL PHP 扩展 - PDO PHP 扩展 - Mbstring PHP 扩展 - Tokenizer PHP 扩展<br>
-
-##nginx 配置
-在 Nginx 中，将下面的指令放到站点配置文件中就可以实现美化链接的功能
-```Java
-location / {
-    try_files $uri $uri/ /index.php?$query_string;
-}
-```
 
 ##基本配置
 .env 文件可以修改数据库配置<br>
@@ -25,10 +16,39 @@ mysql 里面要先创建一个数据库，例如：CREATE DATABASE IF NOT EXISTS
 chmod 777 -R storage<br>
 开发环境下，也可以使用php自带的webserver 命令：php artisan serve --port=8080<br>
 
-##开始使用
-php artisan serve --port=8080<br>
-http://localhost:8080
+##我使用的shell history
+```Java
+pwd
+#/data/www
+
+yum install git
+svn co https://github.com/aoktian/worktime2.git
+git clone https://github.com/aoktian/worktime2.git
+ls
+cd worktime2/
+#mysql 创建数据库
+#CREATE DATABASE IF NOT EXISTS worktime2 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+mv .env.example .env
+vim .env
+# 改数据库配置
+
+php artisan key:generate
+chmod 777 -R storage/
+php artisan migrate
+
+#改 nginx 配置
+vim /usr/local/programs/nginx/conf/nginx.conf
+
+root   /data/www/worktime2/public;
+location / {
+    try_files $uri $uri/ /index.php?$query_string;
+}
+
+#重启nginx
+/usr/local/programs/nginx/sbin/nginx -s reload
+
+```
 
 ##联系我
 email: aoktian@foxmail.com
-
