@@ -5,8 +5,18 @@
 
 
 <div class="row">
+  <div class="col-lg-12" id="task-content">
+<div class="panel panel-default">
+    <div class="panel-heading">
+  <h1>#{{$task->id}} {{$task->title}}</h1>
+    </div>
+    <div class="panel-body">
+<p>
+报告人：{{$users[$task->author]->name}}
+提交：{{$task->created_at}}
+修改：{{$task->updated_at}}
+</p>
 
-  <div class="col-lg-12">
 <div class="form-inline" id="taskinfo">
 
     <div class="form-group">
@@ -70,25 +80,8 @@ foreach ($tags as $value) {
     </div>
 
     <button onclick="updateTaskOnchange({{$task->id}});" class="btn btn-danger margin-right">修改属性</button>
-
+    <a href="/task/edit/{{$task->id}}" class="btn btn-primary margin-right">重新编辑</a>
 </div>
-
-  <p></p>
-  </div>
-
-</div>
-
-<h1><a href="/task/edit/{{$task->id}}">#{{$task->id}} {{$task->title}}</a></h1>
-
-<div class="row">
-  <div class="col-lg-12" id="task-content">
-<div class="panel panel-primary">
-    <div class="panel-body">
-      <p>
-报告人：{{$users[$task->author]->name}}
-提交：{{$task->created_at}}
-修改：{{$task->updated_at}}
-      </p>
 
       <hr />
 
