@@ -47,7 +47,7 @@
 			<thead>
 				<tr>
 <th width="50">#id</th>
-<th width="100"> 名称 </th>
+<th width="200"> 名称 </th>
 <th width="200"> 项目 </th>
 <th width="200"> 开始时间 </th>
 <th width="200"> 结束时间 </th>

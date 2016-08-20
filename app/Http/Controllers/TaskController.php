@@ -214,10 +214,16 @@ class TaskController extends Controller
         if ($file && $file->isValid()) {
             $filename = time() . '_' . rand( 100, 999 ) . '.' . $file->getClientOriginalExtension( );
 
-            if (!file_exists('upload/' . $filename)) {
-                $file->move('upload', $filename);
+            $dir = 'upload/'.date('Ym');
+            if (!is_dir($dir)) {
+                mkdir($dir);
             }
-            $a['path'] = '/upload/' . $filename;
+
+            $path = $dir . '/' . $filename;
+            if (!file_exists($path)) {
+                $file->move($dir, $filename);
+            }
+            $a['path'] = '/' . $path;
         }
 
         return response()->json( $a );

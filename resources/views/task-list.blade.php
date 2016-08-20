@@ -37,6 +37,18 @@
     <tr>
         <th width="20">
 <input type="checkbox" onclick="checkall('tasklist', 'ids[]',  $(this).prop('checked') );"></th>
+  <th width="100">
+<select onchange="taskFilter( 1 );" itag="val" name="search[pro]" class="form-control">
+<option value="0">项目</option>
+@include('selection-users', ['data' => $pros, 'slt' => isset($options['pro']) ? $options['pro'] : 0])
+</select>
+        </th>
+        <th width="100">
+<select onchange="taskFilter( 1 );" itag="val" name="search[tag]" class="form-control">
+<option value="0">版本</option>
+@include('selection-users', ['data' => $tags, 'slt' => isset($options['tag']) ? $options['tag'] : 0])
+</select>
+        </th>
         <th width="100">
 <select onchange="taskFilter( 1 );" itag="val" name="search[status]" class="form-control">
 <option value="0">状态</option>
@@ -56,29 +68,19 @@
         </th>
         <th>标题 </th>
         <th width="100">
-<select onchange="taskFilter( 1 );" itag="val" name="search[leader]" class="form-control">
-<option value="0">负责</option>
-@include('selection-users', ['data' => $users, 'slt' => isset($options['leader']) ? $options['leader'] : 0])
-</select>
-        </th>
-        <th width="100">
 <select onchange="taskFilter( 1 );" itag="val" name="search[department]" class="form-control">
 <option value="0">部门</option>
 @include('selection', ['data' => $departments, 'slt' => isset($options['department']) ? $options['department'] : 0])
 </select>
         </th>
+
         <th width="100">
-<select onchange="taskFilter( 1 );" itag="val" name="search[pro]" class="form-control">
-<option value="0">项目</option>
-@include('selection-users', ['data' => $pros, 'slt' => isset($options['pro']) ? $options['pro'] : 0])
+<select onchange="taskFilter( 1 );" itag="val" name="search[leader]" class="form-control">
+<option value="0">负责</option>
+@include('selection-users', ['data' => $users, 'slt' => isset($options['leader']) ? $options['leader'] : 0])
 </select>
         </th>
-        <th width="100">
-<select onchange="taskFilter( 1 );" itag="val" name="search[tag]" class="form-control">
-<option value="0">版本</option>
-@include('selection-users', ['data' => $tags, 'slt' => isset($options['tag']) ? $options['tag'] : 0])
-</select>
-        </th>
+
         <th width="100">
 <select onchange="taskFilter( 1 );" itag="val" name="search[author]" class="form-control">
 <option value="0">报告</option>

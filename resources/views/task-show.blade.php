@@ -1,9 +1,9 @@
-@extends('layouts.dashboard')
+@extends('layouts.plane')
 @section('title', $task->title)
 
-@section('main')
+@section('body')
 
-
+<p></p>
 <div class="row">
   <div class="col-lg-12" id="task-content">
 <div class="panel panel-default">
