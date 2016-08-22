@@ -21,10 +21,6 @@ chmod 777 -R storage<br>
 pwd
 #/data/www
 
-yum install git
-svn co https://github.com/aoktian/worktime2.git
-git clone https://github.com/aoktian/worktime2.git
-ls
 cd worktime2/
 #mysql 创建数据库
 #CREATE DATABASE IF NOT EXISTS worktime2 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
