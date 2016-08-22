@@ -36,14 +36,38 @@ php artisan migrate
 #改 nginx 配置
 vim /usr/local/programs/nginx/conf/nginx.conf
 
-root   /data/www/worktime2/public;
-location / {
-    try_files $uri $uri/ /index.php?$query_string;
-}
-
 #重启nginx
 /usr/local/programs/nginx/sbin/nginx -s reload
 
+```
+
+##我的nginx配置
+```Java
+server {
+    listen       80;
+    server_name  localhost;
+
+    root           /data/worktime/public;
+
+    access_log  off;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+        index  index.php index.html index.htm;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   html;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include        fastcgi_params;
+    }
+}
 ```
 
 ##联系我
