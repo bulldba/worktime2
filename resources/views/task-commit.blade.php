@@ -1,8 +1,10 @@
-@extends('layouts.dashboard')
+@extends('layouts.plane')
 @section('title', '提交任务')
 
-@section('main')
+@section('body')
 
+<h1>提交新任务</h1>
+<hr />
 
 <form method="POST" action="/task/store" onsubmit="return oncommit( );">
 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
@@ -40,44 +42,73 @@
 </div>
 
 <div class="row">
-  <div class="col-sm-2">
-    <div class="form-group">
-    <div class="input-group">
-        <span class="input-group-addon">负责人：</span>
-        <select name="row[leader]" class="form-control">
-@include('selection-users', ['data' => $users, 'slt' => $task->leader])
-        </select>
-    </div>
-    </div>
-  </div>
-  <div class="col-sm-2">
+  <div class="col-lg-12">
+<div class="form-inline">
     <div class="form-group">
     <div class="input-group">
         <span class="input-group-addon">部门：</span>
-        <select name="row[department]" class="form-control">
+        <select class="form-control" onchange="onChangeDepartment( this.value )">
+@if ($task->id)
 @include('selection', ['data' => Config::get('worktime.department'), 'slt' => $task->department])
+@else
+<option value="0">选择部门</option>
+@include('selection', ['data' => Config::get('worktime.department'), 'slt' => 0])
+@endif
         </select>
     </div>
     </div>
-  </div>
-  <div class="col-sm-2">
+
+    <div class="form-group">
+    <div class="input-group">
+        <span class="input-group-addon">负责人：</span>
+        <select name="row[leader]" class="form-control" id="leaders">
+@if ($task->id)
+@foreach ($users as $user)
+@if ($user->department == $task->department)
+<option value="{{$user->id}}" {{$user->id == $task->leader ? 'selected' : ''}}>{{$user->name}}</option>
+@endif
+@endforeach
+@else
+<option value="0">未选部门</option>
+@endif
+        </select>
+    </div>
+    </div>
+
+    <div class="form-group">
+    <div class="input-group">
+        <span class="input-group-addon">项目</span>
+<select class="form-control" onchange="onChangePro(this.value);">
+@if ($task->id)
+@include('selection-users', ['data' => $pros, 'slt' => $task->pro])
+@else
+<option value="0">选择项目</option>
+@include('selection-users', ['data' => $pros, 'slt' => 0])
+@endif
+</select>
+    </div>
+    </div>
+
     <div class="form-group">
     <div class="input-group">
         <span class="input-group-addon">版本：</span>
-        <select name="row[tag]" class="form-control">
-<?php
-$pro_tag = array();
-foreach ($tags as $value) {
-    $pro_tag[$value->id] = $pros[$value->pro]->name.' - '.$value->name;
-}
-?>
-@include('selection', ['data' => $pro_tag, 'slt' => $task->tag])
+        <select name="row[tag]" class="form-control" id="tags">
+@if ($task->id)
+@foreach ($tags as $tag)
+@if ($tag->pro == $task->pro)
+<option value="{{$tag->id}}" {{$tag->id == $task->tag ? 'selected' : ''}}>{{$tag->name}}</option>
+@endif
+@endforeach
+@else
+<option value="0">未选项目</option>
+@endif
         </select>
     </div>
     </div>
-  </div>
-</div>
 
+  </div></div>
+</div>
+<p></p>
 <div class="row">
   <div class="col-lg-12">
     <div class="form-group">
@@ -101,13 +132,27 @@ foreach ($tags as $value) {
 
 @section('js')
 <script type="text/javascript">
+var users = {!!$users->toJson( )!!};
+var tags = {!!$tags->toJson( )!!};
+
 $(document).ready(function( ) {
   initEditor( "summernote" );
 });
 
 function oncommit( ) {
+  if ($("#leaders").val() <= 0) {
+    alert('没有选择部门或者负责人');
+    return false;
+  }
+
+  if ($("#tags").val() <= 0) {
+    alert('没有选择项目或者版本');
+    return false;
+  }
+
   $('#taskContent').val( $('#summernote').summernote( 'code' ) );
   return true;
 }
+
 </script>
 @stop

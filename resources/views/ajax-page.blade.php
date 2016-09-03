@@ -39,9 +39,6 @@ if ($totalnum > $perpage) {
     @endif
 @endfor
 
-@if ($curpage < $pages)
-<li><a href="javascript:taskFilter({{$curpage + 1}});">&raquo;</a></li>
-@endif
 @if ($to < $pages)
 <li><a href="javascript:taskFilter({{$pages}});">&raquo;</a></li>
 @endif

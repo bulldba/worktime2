@@ -73,21 +73,62 @@ class TagController extends Controller
         return redirect('tag/index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
+    public function postShow(Request $req)
+    {
+        $t = array(
+            $req->input('start'),
+            $req->input('end')
+        );
+
+        $a = DB::table('tasks')
+        ->select(DB::raw('count(*) as num, department, status'))
+        ->whereBetween('created_at', $t)
+        ->groupBy('department')
+        ->groupBy('status')
+        ->get();
+
+        $b = DB::table('tasks')
+        ->select(DB::raw('count(*) as num, leader, status'))
+        ->whereBetween('created_at', $t)
+        ->groupBy('leader')
+        ->groupBy('status')
+        ->orderBy('department')
+        ->get();
+
+        $tag = new Tag( );
+        $tag->name = '时间统计';
+        $tag->t_start = $t[0];
+        $tag->t_end = $t[1];
+        return $this->ppp($a, $b, $tag);
+    }
+
     public function getShow($id)
     {
-        $rows = DB::table('tasks')
+        $a = DB::table('tasks')
         ->select(DB::raw('count(*) as num, department, status'))
         ->where('tag', '=', $id)
         ->groupBy('department')
         ->groupBy('status')
         ->get();
 
+        $b = DB::table('tasks')
+        ->select(DB::raw('count(*) as num, leader, status'))
+        ->where('tag', '=', $id)
+        ->groupBy('leader')
+        ->groupBy('status')
+        ->orderBy('department')
+        ->get();
+        $this->ppp($a, $b, Tag::find( $id ));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    private function ppp($a, $b, $tag)
+    {
         $s_department = array();
         $departments = Config::get('worktime.department');
         $status = Config::get('worktime.status');
@@ -101,22 +142,14 @@ class TagController extends Controller
         foreach ($departments as $department_id => $name) {
             $s_department[$department_id] = $default_status;
         }
-        foreach ($rows as $row) {
+        foreach ($a as $row) {
             $s_department[$row->department][$row->status] = $row->num;
 
             $s_all[$row->status] += $row->num;
         }
 
-        $rows = DB::table('tasks')
-        ->select(DB::raw('count(*) as num, leader, status'))
-        ->where('tag', '=', $id)
-        ->groupBy('leader')
-        ->groupBy('status')
-        ->orderBy('department')
-        ->get();
-
         $s_leader = array();
-        foreach ($rows as $row) {
+        foreach ($b as $row) {
             if (!isset($s_leader[$row->leader])) {
                 $s_leader[$row->leader] = $default_status;
             }
@@ -124,7 +157,7 @@ class TagController extends Controller
         }
 
         return view('tag-statistics', [
-            'tag' => Tag::find( $id ),
+            'tag' => $tag,
             'users' => User::all()->keyBy( 'id' ),
             's_all' => $s_all,
             's_department' => $s_department,

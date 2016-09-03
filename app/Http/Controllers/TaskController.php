@@ -50,8 +50,13 @@ class TaskController extends Controller
                 $tag = Tag::find( $updates['tag'] );
                 $updates['pro'] = $tag->pro;
             }
+            if (isset($updates['leader'])) {
+                $leader = User::find( $updates['leader'] );
+                $updates['department'] = $leader->department;
+            }
 
             if ($updates) {
+                $updates['updated_at'] = date('Y-m-d H:i:s');
                 DB::table('tasks')->whereIn('id', $ids)->update($updates);
             }
         }
@@ -152,6 +157,9 @@ class TaskController extends Controller
 
         $tag = Tag::find( $task->tag );
         $task->pro = $tag->pro;
+
+        $leader = User::find( $task->leader );
+        $task->department = $leader->department;
 
         $task->save( );
 

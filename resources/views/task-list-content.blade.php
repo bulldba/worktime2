@@ -26,8 +26,9 @@ foreach ($tasks as $task) {
 <td>{{$departments[$task->department]}}</td>
 <td>{{$users[$task->leader]->name}}</td>
 <td>{{$users[$task->author]->name}}</td>
+<td>{{$task->updated_at}}</td>
 </tr>
 <?php } ?>
-<tr><td colspan="10" class="text-left">
+<tr><td colspan="11" class="text-left">
 @include('ajax-page')
 </td></tr>

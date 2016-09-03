@@ -21,9 +21,22 @@
 
     <div class="form-group">
     <div class="input-group">
+        <span class="input-group-addon">部门</span>
+<select class="form-control" onchange="onChangeDepartment( this.value )">
+@include('selection', ['data' => Config::get('worktime.department'), 'slt' => $task->department])
+</select>
+    </div>
+    </div>
+
+    <div class="form-group">
+    <div class="input-group">
         <span class="input-group-addon">负责人</span>
-<select itag="val" name="row[leader]" class="form-control">
-@include('selection-users', ['data' => $users, 'slt' => $task->leader])
+<select itag="val" name="row[leader]" class="form-control" id="leaders">
+@foreach ($users as $user)
+@if ($user->department == $task->department)
+<option value="{{$user->id}}" {{$user->id == $task->leader ? 'selected' : ''}}>{{$user->name}}</option>
+@endif
+@endforeach
 </select>
     </div>
     </div>
@@ -48,9 +61,9 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">部门</span>
-<select itag="val" name="row[department]" class="form-control">
-@include('selection', ['data' => Config::get('worktime.department'), 'slt' => $task->department])
+        <span class="input-group-addon">项目</span>
+<select class="form-control" onchange="onChangePro(this.value);">
+@include('selection-users', ['data' => $pros, 'slt' => $task->pro])
 </select>
     </div>
     </div>
@@ -58,14 +71,12 @@
     <div class="form-group">
     <div class="input-group">
         <span class="input-group-addon">版本</span>
-<select itag="val" name="row[tag]" class="form-control">
-<?php
-$pro_tag = array();
-foreach ($tags as $value) {
-    $pro_tag[$value->id] = $pros[$value->pro]->name.' - '.$value->name;
-}
-?>
-@include('selection', ['data' => $pro_tag, 'slt' => $task->tag])
+<select itag="val" name="row[tag]" class="form-control" id="tags">
+@foreach ($tags as $tag)
+@if ($tag->pro == $task->pro)
+<option value="{{$tag->id}}" {{$tag->id == $task->tag ? 'selected' : ''}}>{{$tag->name}}</option>
+@endif
+@endforeach
 </select>
     </div>
     </div>
@@ -167,6 +178,9 @@ foreach ($tags as $value) {
 
 @section('js')
 <script type="text/javascript">
+var users = {!!$users->toJson( )!!};
+var tags = {!!$tags->toJson( )!!};
+
 $(document).ready(function( ) {
   initEditor( "summernote" );
 });
@@ -201,6 +215,16 @@ function commitFeedback( taskid, feedid ) {
 }
 
 function updateTaskOnchange( id ) {
+  if ($("#leaders").val() <= 0 ) {
+    alert("没有选择负责人。");
+    return;
+  }
+
+  if ($("#tags").val() <= 0 ) {
+    alert("没有选择版本。");
+    return;
+  }
+
   // console.log( dom.attr('name')+'='+dom.val()); return;
   var s = get_form_values( "taskinfo" );
   console.log(s);
@@ -215,5 +239,6 @@ function updateTaskOnchange( id ) {
     }
   });
 }
+
 </script>
 @stop
