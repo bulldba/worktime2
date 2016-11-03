@@ -12,16 +12,16 @@
 <title>@yield('title') - worktime</title>
 
 <!-- Bootstrap core CSS -->
-<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset("assets/stylesheets/bootstrap.min.css") }}" />
 <link rel="stylesheet" href="{{ asset("assets/stylesheets/calendar.css") }}" />
 <link rel="stylesheet" href="{{ asset("assets/stylesheets/dashboard.css") }}" />
+<link rel="stylesheet" href="{{ asset("summernote/summernote.css") }}" />
 
-<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="{{ asset("assets/scripts/jquery.min.js") }}"></script>
+<script src="{{ asset("assets/scripts/bootstrap.min.js") }}"></script>
 <!-- include summernote css/js-->
-<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.js"></script>
-<script src="{{ asset("summernote/summernote-zh-CN.js") }}"></script>
+<script src="{{ asset("summernote/summernote.min.js") }}"></script>
+<script src="{{ asset("summernote/lang/summernote-zh-CN.js") }}"></script>
 <script src="{{ asset("assets/scripts/calendar.js") }}"></script>
 <script src="{{ asset("assets/scripts/worktime.js") }}"></script>
 

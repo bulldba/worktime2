@@ -118,7 +118,7 @@ class TagController extends Controller
         ->groupBy('status')
         ->orderBy('department')
         ->get();
-        $this->ppp($a, $b, Tag::find( $id ));
+        return $this->ppp($a, $b, Tag::find( $id ));
     }
 
     /**
