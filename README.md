@@ -10,7 +10,7 @@ http://laravel-china.org/docs/5.1<br>
 http://www.golaravel.com/laravel/docs/5.1/<br>
 
 ##基本配置
-.env 文件可以修改数据库配置<br>
+mv .env.example .env 文件可以修改数据库配置<br>
 mysql 里面要先创建一个数据库，例如：CREATE DATABASE IF NOT EXISTS worktime DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;<br>
 执行命令创建数据库表 php artisan migrate<br>
 chmod 777 -R storage<br>
