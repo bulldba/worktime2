@@ -11,42 +11,41 @@
 <input type="hidden" id="taskContent" name="row[content]">
 <input type="hidden" name="id" value="{{$task->id}}" />
 <div class="row">
-  <div class="col-sm-5">
+  <div class="col-sm-6">
     <div class="form-group">
     <div class="input-group">
-      <span class="input-group-addon">标题：</span>
+      <span class="input-group-addon">标题</span>
       <input id="task-title" name="row[title]" type="text" class="form-control" value="{{'' == $task->title ? '没有标题的标题' : $task->title}}">
-    </div>
-    </div>
-  </div>
-  <div class="col-sm-2">
-    <div class="form-group">
-    <div class="input-group">
-        <span class="input-group-addon">类型：</span>
-        <select name="row[caty]" class="form-control">
-@include('selection', ['data' => Config::get('worktime.caty'), 'slt' => $task->caty])
-        </select>
-    </div>
-    </div>
-  </div>
-  <div class="col-sm-2">
-    <div class="form-group">
-    <div class="input-group">
-        <span class="input-group-addon">优先级：</span>
-        <select name="row[priority]" class="form-control">
-@include('selection', ['data' => Config::get('worktime.priority'), 'slt' => $task->priority])
-        </select>
     </div>
     </div>
   </div>
 </div>
 
-<div class="row">
+<div class="row line">
   <div class="col-lg-12">
 <div class="form-inline">
+
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">部门：</span>
+        <span class="input-group-addon">类型</span>
+        <select name="row[caty]" class="form-control">
+@include('selection', ['data' => Config::get('worktime.caty'), 'slt' => $task->caty])
+        </select>
+    </div>
+    </div>
+
+    <div class="form-group">
+    <div class="input-group">
+        <span class="input-group-addon">优先级</span>
+        <select name="row[priority]" class="form-control">
+@include('selection', ['data' => Config::get('worktime.priority'), 'slt' => $task->priority])
+        </select>
+    </div>
+    </div>
+
+    <div class="form-group">
+    <div class="input-group">
+        <span class="input-group-addon">部门</span>
         <select class="form-control" onchange="onChangeDepartment( this.value )">
 @if ($task->id)
 @include('selection', ['data' => Config::get('worktime.department'), 'slt' => $task->department])
@@ -60,7 +59,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">负责人：</span>
+        <span class="input-group-addon">负责人</span>
         <select name="row[leader]" class="form-control" id="leaders">
 @if ($task->id)
 @foreach ($users as $user)
@@ -74,6 +73,14 @@
         </select>
     </div>
     </div>
+
+</div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+<div class="form-inline">
 
     <div class="form-group">
     <div class="input-group">
@@ -91,7 +98,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">版本：</span>
+        <span class="input-group-addon">版本</span>
         <select name="row[tag]" class="form-control" id="tags">
 @if ($task->id)
 @foreach ($tags as $tag)
@@ -103,6 +110,13 @@
 <option value="0">未选项目</option>
 @endif
         </select>
+    </div>
+    </div>
+
+    <div class="form-group">
+    <div class="input-group">
+        <span class="input-group-addon">限期</span>
+<input onclick="showcalendar(event, this, true)" name="row[deadline]" type="text" class="form-control" value="{{date('Y-m-d H:i:s', $task->deadline ? $task->deadline : time() + 86400 * 7 ) }}">
     </div>
     </div>
 

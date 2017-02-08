@@ -17,8 +17,20 @@
 修改：{{$task->updated_at}}
 </p>
 
-<div class="form-inline" id="taskinfo">
+<hr />
 
+<div id="taskinfo">
+
+<div>
+  <div class="form-group">
+    <div class="input-group">
+        <span class="input-group-addon">标题</span>
+<input id="task-title" name="row[title]" type="text" class="form-control" value="{{$task->title}}">
+    </div>
+    </div>
+</div>
+
+<div class="form-inline">
     <div class="form-group">
     <div class="input-group">
         <span class="input-group-addon">部门</span>
@@ -90,8 +102,15 @@
     </div>
     </div>
 
+    <div class="form-group">
+    <div class="input-group">
+        <span class="input-group-addon">限期</span>
+<input onclick="showcalendar(event, this, true)" itag="val" name="row[deadline]" type="text" class="form-control" value="{{date('Y-m-d H:i:s', $task->deadline) }}">
+    </div>
+    </div>
     <button onclick="updateTaskOnchange({{$task->id}});" class="btn btn-danger margin-right">修改属性</button>
     <a href="/task/edit/{{$task->id}}" class="btn btn-primary margin-right">重新编辑</a>
+  </div>
 </div>
 
       <hr />

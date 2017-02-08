@@ -154,6 +154,7 @@ class TaskController extends Controller
         foreach ($row as $key => $value) {
             $task->$key = $value;
         }
+        $task->deadline = strtotime($task->deadline);
 
         $tag = Tag::find( $task->tag );
         $task->pro = $tag->pro;

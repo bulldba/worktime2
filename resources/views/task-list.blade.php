@@ -81,12 +81,6 @@
 </select>
         </th>
         <th>标题 </th>
-        <th width="100">
-<select onchange="onFilterChangeDepartment(this.value);taskFilter( 1 );" itag="val" name="search[department]" class="form-control">
-<option value="0">部门</option>
-@include('selection', ['data' => $departments, 'slt' => isset($options['department']) ? $options['department'] : 0])
-</select>
-        </th>
 
         <th width="100">
 <select onchange="taskFilter( 1 );" itag="val" name="search[leader]" class="form-control" id="filterLeaders">
@@ -96,12 +90,14 @@
         </th>
 
         <th width="100">
-<select onchange="taskFilter( 1 );" itag="val" name="search[author]" class="form-control">
-<option value="0">报告</option>
-@include('selection-users', ['data' => $users, 'slt' => isset($options['author']) ? $options['author'] : 0])
+<select onchange="onFilterChangeDepartment(this.value);taskFilter( 1 );" itag="val" name="search[department]" class="form-control">
+<option value="0">部门</option>
+@include('selection', ['data' => $departments, 'slt' => isset($options['department']) ? $options['department'] : 0])
 </select>
         </th>
+
         <th width="155">修改时间</th>
+        <th width="155">期限</th>
     </tr>
   </thead>
   <tbody id="tasklist">

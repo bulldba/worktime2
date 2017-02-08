@@ -23,10 +23,10 @@ foreach ($tasks as $task) {
 <td>{{$prioritys[$task->priority]}}</td>
 <td>{{$catys[$task->caty]}}</td>
 <td class="text-left"><a class="{{$tcolor}}" href="/task/show/{{$task->id}}" target="_blank">#{{$task->id}} {{$task->title}}</a></td>
-<td>{{$departments[$task->department]}}</td>
 <td>{{$users[$task->leader]->name}}</td>
-<td>{{$users[$task->author]->name}}</td>
+<td>{{$departments[$task->department]}}</td>
 <td>{{$task->updated_at}}</td>
+<td>{{date('Y-m-d H:i:s', $task->deadline)}}</td>
 </tr>
 <?php } ?>
 <tr><td colspan="11" class="text-left">

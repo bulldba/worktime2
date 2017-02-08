@@ -33,7 +33,7 @@ if ($totalnum > $perpage) {
 @endif
 @for ($i = $from; $i <= $to; $i++)
     @if ($i == $curpage)
-<li class="active"><a href=";">{{$i}} <span class="sr-only">(current)</span></a></li>
+<li class="active"><a href="javascript:;">{{$i}} <span class="sr-only">(current)</span></a></li>
     @else
 <li><a href="javascript:taskFilter({{$i}});">{{$i}}</a></li>
     @endif
