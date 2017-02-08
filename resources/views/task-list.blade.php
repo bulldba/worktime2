@@ -96,6 +96,13 @@
 </select>
         </th>
 
+        <th width="100">
+<select onchange="taskFilter( 1 );" itag="val" name="search[author]" class="form-control" id="filterLeaders">
+<option value="0">报告</option>
+@include('selection-users', ['data' => $users, 'slt' => isset($options['author']) ? $options['author'] : 0])
+</select>
+        </th>
+
         <th width="155">修改时间</th>
         <th width="155">期限</th>
     </tr>
