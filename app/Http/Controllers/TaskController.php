@@ -10,6 +10,7 @@ use App\Tag;
 use App\User;
 use App\Feedback;
 use App\Pro;
+use App\Title;
 use Input;
 
 use Illuminate\Http\Request;
@@ -31,8 +32,16 @@ class TaskController extends Controller
         return $this->formatlist($request, ['leader' => Auth::user()->id]);
     }
 
+    public function getChecks(Request $request) {
+        return $this->formatlist($request, ['caty' => Config::get('worktime.check')]);
+    }
+
     public function getIcommit(Request $request) {
         return $this->formatlist($request, ['author' => Auth::user()->id]);
+    }
+
+    public function getItest(Request $request) {
+        return $this->formatlist($request, ['tester' => Auth::user()->id]);
     }
 
     public function formatlist(Request $request, $searchargs)
@@ -107,9 +116,9 @@ class TaskController extends Controller
             'users' => User::all()->keyBy( 'id' ),
             'tags' => Tag::orderBy( 'id', 'desc' )->get( )->keyBy( 'id' ),
             'status' => Config::get('worktime.status'),
-            'catys' => Config::get('worktime.caty'),
+            'catys' => Title::where('caty', 2)->get( )->keyBy('id'),
             'prioritys' => Config::get('worktime.priority'),
-            'departments' => Config::get('worktime.department'),
+            'departments' => Title::where('caty', 1)->get(  )->keyBy('id'),
             'options' => $options,
             'totalnum' => $totalnum,
             'curpage' => $curpage,
@@ -129,7 +138,9 @@ class TaskController extends Controller
             'task' => new Task,
             'users' => User::all(),
             'pros' => Pro::all( )->keyBy('id'),
-            'tags' => Tag::orderBy( 'id', 'desc' )->get( )
+            'tags' => Tag::orderBy( 'id', 'desc' )->get( ),
+            'catys' => Title::where('caty', 2)->get(  )->keyBy('id'),
+            'departments' => Title::where('caty', 1)->get(  )->keyBy('id')
             ]);
     }
 
@@ -141,34 +152,49 @@ class TaskController extends Controller
     public function postStore(Request $request)
     {
         $id = $request->input('id');
+        $row = $request->input('row');
+
         if ($id) {
             $task = Task::find($id);
         } else {
-            $task = new Task;
             $me = Auth::user();
+            $task = new Task;
             $task->author = $me->id;
             $task->status = 12;
         }
 
-        $row = $request->input('row');
+        $oldcaty = $task->caty;
+
+
         foreach ($row as $key => $value) {
             $task->$key = $value;
         }
         $task->deadline = strtotime($task->deadline);
 
-        $tag = Tag::find( $task->tag );
-        $task->pro = $tag->pro;
+        //check类型的类型不能更改
+        if ($oldcaty == Config::get( 'worktime.check' ) || $oldcaty == Config::get( 'worktime.icheck' )) {
+            $task->caty = $oldcaty;
+        }
 
-        $leader = User::find( $task->leader );
-        $task->department = $leader->department;
+        $this->onChange( $task );
 
         $task->save( );
+
+        $this->add2svn( $task );
 
         if ($request->ajax()) {
             return '';
         } else {
             return redirect('task/show/'.$task->id);
         }
+    }
+
+    private function onChange( $task ) {
+        $tag = Tag::find( $task->tag );
+        $task->pro = $tag->pro;
+
+        $leader = User::find( $task->leader );
+        $task->department = $leader->department;
     }
 
     /**
@@ -179,12 +205,23 @@ class TaskController extends Controller
      */
     public function getShow($id)
     {
-        return view('task-show', [
+        $task = Task::find( $id );
+
+        $tpl = 'task-show';
+        if ($task->caty == Config::get('worktime.check')) {
+            $tpl = 'check-show';
+        } elseif ($task->caty == Config::get('worktime.icheck')) {
+            $tpl = 'task-check';
+        }
+
+        return view($tpl, [
             'task' => Task::find( $id ),
             'feedbacks' => Feedback::where( 'pid', $id )->get( ),
             'users' => User::all()->keyBy( 'id' ),
             'pros' => Pro::all( )->keyBy('id'),
-            'tags' => Tag::all( )
+            'tags' => Tag::all( ),
+            'catys' => Title::where('caty', 2)->get(  )->keyBy('id'),
+            'departments' => Title::where('caty', 1)->get(  )->keyBy('id')
         ]);
     }
 
@@ -200,7 +237,9 @@ class TaskController extends Controller
             'task' => Task::find( $id ),
             'users' => User::all(),
             'pros' => Pro::all( )->keyBy('id'),
-            'tags' => Tag::orderBy( 'id', 'desc' )->get( )
+            'tags' => Tag::orderBy( 'id', 'desc' )->get( ),
+            'catys' => Title::where('caty', 2)->get(  )->keyBy('id'),
+            'departments' => Title::where('caty', 1)->get(  )->keyBy('id')
             ]);
     }
 
@@ -238,4 +277,172 @@ class TaskController extends Controller
         return response()->json( $a );
     }
 
+    public function getCheck( $id = 0 ) {
+        return view('check-commit', [
+            'task' => $id ? Task::find($id) : new Task(),
+            'departments' => Title::where('caty', 1)->get(  )->keyBy('id')
+            ]);
+    }
+
+    public function postCheck(Request $request) {
+        $id = $request->input('id');
+        if ($id) {
+            $task = Task::find($id);
+        } else {
+            $task = new Task;
+            $me = Auth::user();
+            $task->author = $me->id;
+            $task->leader = $me->id;
+            $task->status = 12;
+            $task->priority = 10;
+            $task->caty = Config::get( 'worktime.check' );
+        }
+
+        $row = $request->input('row');
+        foreach ($row as $key => $value) {
+            $task->$key = $value;
+        }
+
+        $checklist = $request->input('checklist');
+        $task->content = json_encode($checklist, JSON_UNESCAPED_UNICODE);
+
+        $task->save( );
+
+        return redirect('task/show/'.$task->id);
+
+    }
+
+
+    public function postPublishcheck(Request $request) {
+        $id = $request->input('id');
+        $task = Task::find( $id );
+
+        $newtask = new Task( );
+        $row = $request->input('row');
+        foreach ($row as $key => $value) {
+            $newtask->$key = $value;
+        }
+
+        $newtask->status = 12;
+        $newtask->caty = Config::get( 'worktime.icheck' );
+        $ccc = [];
+        foreach (json_decode($task->content) as $key => $value) {
+            $ccc[] = [$value, 0];
+        }
+
+        $newtask->content = json_encode($ccc, JSON_UNESCAPED_UNICODE);
+
+        $this->onChange( $newtask );
+
+        $newtask->save( );
+
+        return redirect('task/show/'.$newtask->id);
+
+    }
+
+    public function postIcheck(Request $request) {
+        $id = $request->input('id');
+        $task = Task::find( $id );
+
+        $iid = $request->input('iid');
+        $passk = $request->input('passk');
+
+        $ccc = json_decode($task->content);
+        if (!isset($ccc[$iid])) {
+            return 'error';
+        }
+
+        $ccc[$iid][1] = $passk;
+
+        $task->content = json_encode($ccc, JSON_UNESCAPED_UNICODE);
+        $task->save( );
+        return 'ok';
+    }
+
+    public function getResetcheck($id) {
+        $task = Task::find( $id );
+        $ccc = [];
+        foreach (json_decode($task->content) as $key => $value) {
+            $ccc[] = [$value, 0];
+        }
+        $task->content = json_encode($ccc, JSON_UNESCAPED_UNICODE);
+        $task->save( );
+
+        return redirect('task/show/'.$task->id);
+    }
+
+
+
+    private function add2svn( $task ) {
+        if ( !env('SVN_LOG', false) ) {
+            return;
+        }
+
+        $me = Auth::user();
+        $leader = User::find( $task->leader );
+        $catys = Title::where('caty', 2)->get(  )->keyBy('id');
+        $caty = $catys[$task->caty]->name;
+        $priority = Config::get('worktime.priority')[$task->task];
+        $departments = Title::where('caty', 1)->get( )->keyBy('id');
+        $department = $departments[$task->department];
+        $status = Config::get('worktime.status')[$task->status];
+
+        $tag = Tag::find( $task->tag );
+        $pro = Tag::find( $task->pro );
+
+        $svncontent = <<<EOT
+changed: $me->name
+leader: $leader->name
+caty: $caty
+priority: $priority
+department: $department
+status: $status
+pro: $pro->name
+tag: $tag->name
+title: $task->title
+#####content#####
+$task->content
+EOT;
+        file_put_contents('/home/tasks/' . $task->id, $svncontent);
+    }
+
+    public function getHr( Request $req ) {
+        $query = DB::table('tasks');
+        $options = array();
+
+        $leader = $req->input( 'leader' );
+        if (!$leader) {
+            $leader = Auth::user()->id;
+        }
+
+        $options['leader'] = $leader;
+        $query->where('leader', $options['leader'] );
+
+        $t_start = $req->input( 't_start' );
+        if ($t_start) {
+            $options['t_start'] = $t_start;
+            $query->where('updated_at', '>=', $t_start . ' 00:00:00' );
+        }
+
+        $t_end = $req->input( 't_end' );
+        if ($t_end) {
+            $options['t_end'] = $t_end;
+            $query->where('updated_at', '<=', $t_end . ' 23:59:59' );
+        }
+
+        $query->orderBy('status');
+        $tasks = $query->paginate(30);
+
+        return view('hr-list', [
+            'options' => $options,
+            'pros' => Pro::all( )->keyBy('id'),
+            'tags' => Tag::all( )->keyBy('id'),
+            'catys' => Title::where('caty', 2)->get( )->keyBy('id'),
+            'departments' => Title::where('caty', 1)->get( )->keyBy('id'),
+            'users' => User::all( ),
+            'tasks' => $tasks
+        ]);
+    }
+
 }
+

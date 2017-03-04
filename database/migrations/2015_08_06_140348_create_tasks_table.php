@@ -16,8 +16,10 @@ class CreateTasksTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('content');
+
             $table->integer('author');
             $table->integer('leader');
+            $table->integer('tester');
 
             $table->smallInteger('caty')->default( 1 );
             $table->smallInteger('priority')->default( 1 );
@@ -27,9 +29,12 @@ class CreateTasksTable extends Migration
             $table->integer('pro')->default( 1 );
             $table->integer('tag')->default( 1 );
 
+            $table->smallInteger('science')->default( 0 );
+
             $table->integer('deadline')->default( 0 );
 
             $table->timestamps();
+
         });
 
     }

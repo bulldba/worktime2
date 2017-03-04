@@ -8,7 +8,7 @@
   <div class="col-lg-12" id="task-content">
 <div class="panel panel-default">
     <div class="panel-heading">
-  <h1>#{{$task->id}} {{$task->title}}</h1>
+  <h1 id="title">#{{$task->id}} {{$task->title}}</h1>
     </div>
     <div class="panel-body">
 <p>
@@ -25,7 +25,7 @@
   <div class="form-group">
     <div class="input-group">
         <span class="input-group-addon">标题</span>
-<input id="task-title" name="row[title]" type="text" class="form-control" value="{{$task->title}}">
+<input itag="val" id="task-title" name="row[title]" type="text" class="form-control" value="{{$task->title}}">
     </div>
     </div>
 </div>
@@ -247,6 +247,8 @@ function updateTaskOnchange( id ) {
   // console.log( dom.attr('name')+'='+dom.val()); return;
   var s = get_form_values( "taskinfo" );
   console.log(s);
+
+  $("#title").html("#" + id + " " + $("#task-title").val());
 
   $.ajax({
     data: s + "&id=" + id,

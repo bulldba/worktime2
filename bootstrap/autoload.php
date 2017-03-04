@@ -32,3 +32,8 @@ $compiledPath = __DIR__.'/cache/compiled.php';
 if (file_exists($compiledPath)) {
     require $compiledPath;
 }
+$functions = __DIR__ . '/../app/Common/functions.php';
+if (file_exists($functions))
+{
+    require $functions;
+}

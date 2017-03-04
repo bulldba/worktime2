@@ -55,13 +55,7 @@ class FeedbackController extends Controller
 
         $feedback->save( );
 
-        if ($request->ajax()) {
-            $a = $feedback->toArray();
-            $a['author'] = $me->name;
-            return response()->json($a);
-        } else {
-            return redirect('task/show/'.$feedback->pid.'#feedback.'.$feedback->id);
-        }
+        return redirect('task/show/'.$feedback->pid.'#feedback.'.$feedback->id);
     }
 
     /**
@@ -83,7 +77,7 @@ class FeedbackController extends Controller
      */
     public function getEdit($id)
     {
-        return view('task-feedback', [
+        return view('feedback-edit', [
             'feedback' => Feedback::find( $id )
         ]);
     }

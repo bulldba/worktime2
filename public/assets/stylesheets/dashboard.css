@@ -1,11 +1,9 @@
-.line {
-}
 .lineright {
     height: 18px;
     line-height: 18px;
     margin: 0 8px 0 0;
     text-align: right;
-    clear: :both;
+    clear: both;
 }
 
 .vertical-middle > thead > tr > th,
@@ -21,10 +19,14 @@
   margin-right:20px;
 }
 
-.line {margin-bottom: 10px;}
-
 .progress {margin-bottom: 0;}
 
-.text-normal {color : #000;}
+.bg-red {color: #fff; background-color: red;}
+.bg-green {color: #fff; background-color: green;}
 
+.text-normal {color : #000;}
+.text-red {color : red;}
 .text-success {color:green;}
+.line {margin-bottom: 10px;}
+.ipre {background: none; border : none;}
+

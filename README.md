@@ -9,6 +9,8 @@ http://120.132.69.194/
 http://laravel-china.org/docs/5.1<br>
 http://www.golaravel.com/laravel/docs/5.1/<br>
 
+##使用XAMPP，这个集成环境非常好
+
 ##基本配置
 mv .env.example .env 文件可以修改数据库配置<br>
 mysql 里面要先创建一个数据库，例如：CREATE DATABASE IF NOT EXISTS worktime DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;<br>
@@ -32,6 +34,7 @@ vim .env
 php artisan key:generate
 chmod 777 -R storage/
 php artisan migrate
+php artisan db:seed
 
 #改 nginx 配置
 vim /usr/local/programs/nginx/conf/nginx.conf

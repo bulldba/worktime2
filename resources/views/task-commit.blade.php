@@ -116,7 +116,7 @@
     <div class="form-group">
     <div class="input-group">
         <span class="input-group-addon">限期</span>
-<input onclick="showcalendar(event, this, true)" name="row[deadline]" type="text" class="form-control" value="{{date('Y-m-d H:i:s', $task->deadline ? $task->deadline : time() + 86400 * 7 ) }}">
+<input onclick="showcalendar(event, this, true)" name="row[deadline]" type="text" class="form-control" value="{{date('Y-m-d H:i:s', $task->deadline ? $task->deadline : 0 ) }}">
     </div>
     </div>
 

@@ -8,6 +8,7 @@ use Auth;
 use App\Tag;
 use App\User;
 use App\Pro;
+use App\Title;
 
 use Illuminate\Http\Request;
 
@@ -130,7 +131,7 @@ class TagController extends Controller
     private function ppp($a, $b, $tag)
     {
         $s_department = array();
-        $departments = Config::get('worktime.department');
+        $departments = Title::where('caty', 1)->get( )->keyBy('id');
         $status = Config::get('worktime.status');
         $default_status = array();
         foreach ($status as $status_id => $value) {
@@ -139,7 +140,7 @@ class TagController extends Controller
 
         $s_all = $default_status;
 
-        foreach ($departments as $department_id => $name) {
+        foreach ($departments as $department_id => $department) {
             $s_department[$department_id] = $default_status;
         }
         foreach ($a as $row) {
@@ -156,9 +157,10 @@ class TagController extends Controller
             $s_leader[$row->leader][$row->status] = $row->num;
         }
 
-        return view('tag-statistics', [
+return view('tag-statistics', [
             'tag' => $tag,
             'users' => User::all()->keyBy( 'id' ),
+            'departments' => Title::where('caty', 1)->get( )->keyBy('id'),
             's_all' => $s_all,
             's_department' => $s_department,
             's_leader' => $s_leader

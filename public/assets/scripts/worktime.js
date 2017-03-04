@@ -95,3 +95,74 @@ function onFilterChangePro( id ) {
   var options = "<option value='0'>版本</option>";
   $("#filterTags").html( options + getTags( id ) );
 }
+
+function updateTaskOnchange( id ) {
+
+  if ($("#leaders").val() <= 0 ) {
+    alert("没有选择负责人。");
+    return;
+  }
+
+  if ($("#tags").val() <= 0 ) {
+    alert("没有选择版本。");
+    return;
+  }
+
+  // console.log( dom.attr('name')+'='+dom.val()); return;
+  var s = get_form_values( "taskinfo" );
+  console.log(s);
+
+  $("#title").html("#" + id + " " + $("#task-title").val());
+
+  $.ajax({
+    data: s + "&id=" + id,
+    type: "POST",
+    url: '/task/store',
+    cache: false,
+    success: function( ) {
+      alert("修改成功...");
+    }
+  });
+}
+
+function commitFeedback( ) {
+  $('#formFeedbackContent').val( $('#summernote').summernote( 'code' ) );
+  return true;
+}
+
+function onpublishcheck( ) {
+  if ($("#task-title").val() === "") {
+    alert('没有填写标题');
+    return false;
+  }
+  if ($("#leaders").val() <= 0) {
+    alert('没有选择部门或者负责人');
+    return false;
+  }
+
+  if ($("#tags").val() <= 0) {
+    alert('没有选择项目或者版本');
+    return false;
+  }
+
+  return true;
+}
+
+function onchagecheckstate(id, iid, slt ) {
+  var td = document.getElementById("index-" + iid);
+  if (slt.value == 1) {
+    td.className = "bg-green";
+  } else {
+    td.className = "bg-red";
+  }
+
+  $.ajax({
+    data: "id=" + id + "&iid=" + iid + "&passk=" + slt.value,
+    type: "POST",
+    url: '/task/icheck',
+    cache: false,
+    success: function( ) {
+      alert("修改成功...");
+    }
+  });
+}

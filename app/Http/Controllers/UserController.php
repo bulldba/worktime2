@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Auth;
 use App\User;
+use App\Title;
 
 use Illuminate\Http\Request;
 
@@ -26,8 +27,16 @@ class UserController extends Controller
     public function getIndex()
     {
         return view('user-list', [
-            'users' => User::all()
-            ]);
+            'users' => User::all(),
+            'departments' => Title::where('caty', 1)->get(  )->keyBy('id')
+        ]);
+    }
+
+    public function getRegister( )
+    {
+        return view('auth.register', [
+            'departments' => Title::where('caty', 1)->get(  )->keyBy('id')
+        ]);
     }
 
     /**
@@ -62,6 +71,17 @@ class UserController extends Controller
         //
     }
 
+    public function getDel($id, $toid) {
+        if ($toid > 0 && $id != $toid) {
+            DB::table('users')->where('id', $id)->delete();
+            DB::table('tasks')->where('leader', $id)->update(['leader' => $toid]);
+            DB::table('tasks')->where('author', $id)->update(['author' => $toid]);
+            DB::table('feedbacks')->where('author', $id)->update(['author' => $toid]);
+        }
+
+        return view('user-list', ['users' => User::all() ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -83,7 +103,8 @@ class UserController extends Controller
         }
 
         return view('user-reset', [
-            'user' => $user
+            'user' => $user,
+            'departments' => Title::where('caty', 1)->get(  )->keyBy('id')
             ]);
     }
 
@@ -99,9 +120,9 @@ class UserController extends Controller
         $me = Auth::user();
 
         if ($me->id != $id) {
-            if ($me->id > 1) {
-                return redirect('user/index');
-            }
+            //if ($me->id > 1) {
+              //  return redirect('user/index');
+            //}
 
             $user = User::find( $id );
         } else {
@@ -138,8 +159,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         //
     }
+
+    public function getResetpsd($id) {
+    	$user = User::find($id);
+    	$user->password = bcrypt(123456);
+    	$user->save();
+	}
+
 }

@@ -22,7 +22,7 @@ Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
 // Registration routes...
-Route::get('auth/register', 'Auth\AuthController@getRegister');
+Route::get('auth/register', 'UserController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 
 // Password reset link request routes...
@@ -38,3 +38,4 @@ Route::controller('feedback', 'FeedbackController');
 Route::controller('user', 'UserController');
 Route::controller('tag', 'TagController');
 Route::controller('pro', 'ProController');
+Route::controller('title', 'TitleController');
