@@ -34,7 +34,7 @@
     <div class="input-group input-group-lg">
         <span class="input-group-addon"><i class="glyphicon glyphicon-th-large"></i></span>
         <select name="department" class="form-control">
-@include('selection', ['data' => Config::get('worktime.department'), 'slt' => 1])
+@include('selection-users', ['data' => $departments, 'slt' => 1])
         </select>
     </div>
 </div>

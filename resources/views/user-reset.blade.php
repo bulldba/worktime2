@@ -30,7 +30,7 @@
         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
         <input class="form-control" type="text" name="name" value="{{ $user->name }}" />
         <select name="department" class="form-control">
-@include('selection', ['data' => Config::get('worktime.department'), 'slt' => $user->department])
+@include('selection-users', ['data' => $departments, 'slt' => $user->department])
         </select>
     </div>
 </div>

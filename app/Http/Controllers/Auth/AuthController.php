@@ -7,6 +7,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use App\Title;
 
 class AuthController extends Controller
 {
@@ -64,6 +65,13 @@ class AuthController extends Controller
             'email' => $data['email'],
             'department' => $data['department'],
             'password' => bcrypt($data['password']),
+        ]);
+    }
+
+    public function getRegister( )
+    {
+        return view('auth.register', [
+            'departments' => Title::where('caty', 1)->get(  )->keyBy('id')
         ]);
     }
 }

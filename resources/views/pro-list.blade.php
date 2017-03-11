@@ -45,7 +45,7 @@
 	<td>{{$pro->id}}</td>
 <td>
   <input type="text" class="form-control" name="row[name]" value="{{$pro->name}}">
-</div>
+</td>
   <td>{{$pro->created_at}}</td>
 	<td>
 <button type="submit" class="btn btn-default">修改名字</button>

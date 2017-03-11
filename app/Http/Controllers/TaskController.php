@@ -172,7 +172,8 @@ class TaskController extends Controller
         $task->deadline = strtotime($task->deadline);
 
         //check类型的类型不能更改
-        if ($oldcaty == Config::get( 'worktime.check' ) || $oldcaty == Config::get( 'worktime.icheck' )) {
+        $donotchange = [Config::get( 'worktime.check' ), Config::get( 'worktime.icheck' )];
+        if (in_array($oldcaty, $donotchange) || in_array($task->caty, $donotchange)) {
             $task->caty = $oldcaty;
         }
 

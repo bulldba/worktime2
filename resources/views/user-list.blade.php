@@ -3,32 +3,33 @@
 
 @section('main')
 
-
-<div class="row">
+<div class="row line">
 	<div class="col-lg-6">
-		<table class="table table-bordered table-striped table-hover">
+		<table class="table table-bordered table-striped table-hover  vertical-middle text-center">
 			<thead>
 				<tr>
-                    <th width="50">#id</th>
-                    <th width="80"> Email </th>
-                    <th width="80"> 姓名 </th>
-                    <th width="80"> 部门 </th>
-                    <th>
+<th width="50">#id</th>
+<th width="80"> Email </th>
+<th width="80"> 姓名 </th>
+<th width="80"> 部门 </th>
+<th>
 操作
-                    </th>
+</th>
 				</tr>
 			</thead>
 			<tbody>
 <?php
-$departments = Config::get('worktime.department');
 foreach ($users as $user) { ?>
 <tr>
 	<td>{{$user->id}}</td>
     <td>{{$user->email}}</td>
     <td><a href="/user/edit/{{$user->id}}">{{$user->name}}</a></td>
-	<td>{{$departments[$user->department]}}</td>
+	<td>{{$departments[$user->department]->name}}</td>
 	<td>
-<a href="#">删除</a>
+<!-- Button trigger modal -->
+<button onclick="delid = {{$user->id}};" type="button" class="btn btn-link" data-toggle="modal" data-target="#deluserconfirm">
+  删除
+</button>
 	</td>
 </tr>
 <?php } ?>
@@ -38,4 +39,55 @@ foreach ($users as $user) { ?>
 	</div>
 </div>
 
+<div class="modal fade" tabindex="-1" role="dialog" id="deluserconfirm">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">删除角色</h4>
+      </div>
+      <div class="modal-body">
+        <p>把他的任务转移给其他人，包括负责的任务和发布的任务</p>
+<div class="input-group input-group-lg line">
+  <span class="input-group-addon">部门：</span>
+<select class="form-control" onchange="onChangeDepartment( this.value )">
+<option value="0">选择部门</option>
+@include('selection-users', ['data' => $departments, 'slt' => 0])
+</select>
+</div>
+
+<div class="input-group input-group-lg">
+  <span class="input-group-addon">转到：</span>
+<select class="form-control"  id="leaders">
+@include('selection-users', ['data' => $users, 'slt' => 0])
+</select>
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="deluser();">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 @stop
+
+
+@section('js')
+<script type="text/javascript">
+var delid = 0;
+var users = {!!$users->toJson( )!!};
+
+function deluser( ) {
+  var toid = $('#leaders').val();
+  if (parseInt(toid) <= 0) {
+    alert("没有选择把他的任务转移给谁？");
+    return;
+  }
+  window.location.href= '/user/del/' + delid + '/' + toid;
+}
+</script>
+@stop
+
+

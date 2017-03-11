@@ -10,6 +10,7 @@
 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 <input type="hidden" id="taskContent" name="row[content]">
 <input type="hidden" name="id" value="{{$task->id}}" />
+
 <div class="row">
   <div class="col-sm-6">
     <div class="form-group">
@@ -28,8 +29,8 @@
     <div class="form-group">
     <div class="input-group">
         <span class="input-group-addon">类型</span>
-        <select name="row[caty]" class="form-control">
-@include('selection', ['data' => Config::get('worktime.caty'), 'slt' => $task->caty])
+        <select id="caty" name="row[caty]" class="form-control">
+@include('selection-users', ['data' => $catys, 'slt' => $task->caty])
         </select>
     </div>
     </div>
@@ -48,10 +49,10 @@
         <span class="input-group-addon">部门</span>
         <select class="form-control" onchange="onChangeDepartment( this.value )">
 @if ($task->id)
-@include('selection', ['data' => Config::get('worktime.department'), 'slt' => $task->department])
+@include('selection-users', ['data' => $departments, 'slt' => $task->department])
 @else
 <option value="0">选择部门</option>
-@include('selection', ['data' => Config::get('worktime.department'), 'slt' => 0])
+@include('selection-users', ['data' => $departments, 'slt' => 0])
 @endif
         </select>
     </div>
@@ -73,14 +74,6 @@
         </select>
     </div>
     </div>
-
-</div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-lg-12">
-<div class="form-inline">
 
     <div class="form-group">
     <div class="input-group">
@@ -113,16 +106,26 @@
     </div>
     </div>
 
+<div class="form-group">
+<div class="input-group">
+    <span class="input-group-addon">验收</span>
+    <select name="row[tester]" class="form-control" id="leaders">
+<option value="0">未选</option>
+@include('selection-users', ['data' => $users, 'slt' => $task->tester > 0 ? $task->tester : Auth::user()->id])
+    </select>
+</div>
+</div>
+
     <div class="form-group">
     <div class="input-group">
         <span class="input-group-addon">限期</span>
-<input onclick="showcalendar(event, this, true)" name="row[deadline]" type="text" class="form-control" value="{{date('Y-m-d H:i:s', $task->deadline ? $task->deadline : 0 ) }}">
+<input onclick="showcalendar(event, this, true)" name="row[deadline]" type="text" class="form-control" value="{{date('Y-m-d H:i:s', $task->deadline ? $task->deadline : time() + 86400 * 7 ) }}">
     </div>
     </div>
 
   </div></div>
 </div>
-<p></p>
+
 <div class="row">
   <div class="col-lg-12">
     <div class="form-group">
@@ -154,6 +157,7 @@ $(document).ready(function( ) {
 });
 
 function oncommit( ) {
+
   if ($("#leaders").val() <= 0) {
     alert('没有选择部门或者负责人');
     return false;

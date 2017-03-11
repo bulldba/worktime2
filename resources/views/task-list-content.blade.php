@@ -17,15 +17,15 @@ foreach ($tasks as $task) {
 ?>
 <tr class="{{$tcolor}}">
 <td><input itag="val" name="ids[]" type="checkbox" value="{{$task->id}}"></td>
-<td>{{$pros[$task->pro]->name}}</td>
-<td>{{$tags[$task->tag]->name}}</td>
-<td>{{$status[$task->status]}}</td>
-<td>{{$prioritys[$task->priority]}}</td>
-<td>{{$catys[$task->caty]}}</td>
+<td>{{isset($pros[$task->pro]) ? $pros[$task->pro]->name : ''}}</td>
+<td>{{isset($tags[$task->tag]) ? $tags[$task->tag]->name : ''}}</td>
+<td>{{$status[$task->status] or ''}}</td>
+<td>{{isset($prioritys[$task->priority]) ? $prioritys[$task->priority] : ''}}</td>
+<td>{{$catys[$task->caty]->name}}</td>
 <td class="text-left"><a class="{{$tcolor}}" href="/task/show/{{$task->id}}" target="_blank">#{{$task->id}} {{$task->title}}</a></td>
+<td>{{$departments[$task->department]->name}}</td>
 <td>{{$users[$task->leader]->name}}</td>
-<td>{{$departments[$task->department]}}</td>
-<td>{{$users[$task->author]->name}}</td>
+<td>{{isset($users[$task->tester]) ? $users[$task->tester]->name : '-'}}</td>
 <td>{{$task->updated_at}}</td>
 <td>{{date('Y-m-d H:i:s', $task->deadline)}}</td>
 </tr>

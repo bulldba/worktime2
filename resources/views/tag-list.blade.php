@@ -68,7 +68,6 @@
 <td><input type="text" class="form-control" name="row[t_end]" value="{{$tag->t_end}}" onclick="showcalendar(event, this)"></td>
 <td>
 <button type="submit" class="btn btn-default">修改</button>
-<a href="/tag/show/{{$tag->id}}" class="btn btn-default">查看统计</a>
 	</td>
 </form>
 </tr>

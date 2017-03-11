@@ -74,61 +74,7 @@ class TagController extends Controller
         return redirect('tag/index');
     }
 
-    public function postShow(Request $req)
-    {
-        $t = array(
-            $req->input('start'),
-            $req->input('end')
-        );
-
-        $a = DB::table('tasks')
-        ->select(DB::raw('count(*) as num, department, status'))
-        ->whereBetween('created_at', $t)
-        ->groupBy('department')
-        ->groupBy('status')
-        ->get();
-
-        $b = DB::table('tasks')
-        ->select(DB::raw('count(*) as num, leader, status'))
-        ->whereBetween('created_at', $t)
-        ->groupBy('leader')
-        ->groupBy('status')
-        ->orderBy('department')
-        ->get();
-
-        $tag = new Tag( );
-        $tag->name = '时间统计';
-        $tag->t_start = $t[0];
-        $tag->t_end = $t[1];
-        return $this->ppp($a, $b, $tag);
-    }
-
-    public function getShow($id)
-    {
-        $a = DB::table('tasks')
-        ->select(DB::raw('count(*) as num, department, status'))
-        ->where('tag', '=', $id)
-        ->groupBy('department')
-        ->groupBy('status')
-        ->get();
-
-        $b = DB::table('tasks')
-        ->select(DB::raw('count(*) as num, leader, status'))
-        ->where('tag', '=', $id)
-        ->groupBy('leader')
-        ->groupBy('status')
-        ->orderBy('department')
-        ->get();
-        return $this->ppp($a, $b, Tag::find( $id ));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    private function ppp($a, $b, $tag)
+    public function postStats(Request $req)
     {
         $s_department = array();
         $departments = Title::where('caty', 1)->get( )->keyBy('id');
@@ -137,34 +83,101 @@ class TagController extends Controller
         foreach ($status as $status_id => $value) {
             $default_status[$status_id] = 0;
         }
+        $default_status['new'] = 0;
+
+        $t = array(
+            $req->input('start'),
+            $req->input('end')
+        );
+
+        $a = DB::table('tasks')
+        ->select(DB::raw('count(*) as num, department as tname, status'))
+        ->whereBetween('updated_at', $t)
+        ->groupBy('department')
+        ->groupBy('status')
+        ->get();
 
         $s_all = $default_status;
-
-        foreach ($departments as $department_id => $department) {
-            $s_department[$department_id] = $default_status;
-        }
         foreach ($a as $row) {
-            $s_department[$row->department][$row->status] = $row->num;
-
             $s_all[$row->status] += $row->num;
         }
 
-        $s_leader = array();
-        foreach ($b as $row) {
-            if (!isset($s_leader[$row->leader])) {
-                $s_leader[$row->leader] = $default_status;
-            }
-            $s_leader[$row->leader][$row->status] = $row->num;
+        $aa = DB::table('tasks')
+        ->select(DB::raw('count(*) as num, department as tname'))
+        ->whereBetween('created_at', $t)
+        ->whereNotIn('status', [90, 99])
+        ->groupBy('department')
+        ->get();
+        foreach ($aa as $row) {
+            $s_all['new'] += $row->num;
         }
 
-return view('tag-statistics', [
+        $s_department = $this->getdata( $a, $aa, $default_status );
+
+        $a = DB::table('tasks')
+        ->select(DB::raw('count(*) as num, leader as tname, status'))
+        ->whereBetween('updated_at', $t)
+        ->groupBy('leader')
+        ->groupBy('status')
+        ->orderBy('department')
+        ->get();
+
+        $aa = DB::table('tasks')
+        ->select(DB::raw('count(*) as num, leader as tname'))
+        ->whereBetween('created_at', $t)
+        ->whereNotIn('status', [90, 99])
+        ->groupBy('leader')
+        ->get();
+
+        $s_leader = $this->getdata( $a, $aa, $default_status );
+
+        $a = DB::table('tasks')
+        ->select(DB::raw('count(*) as num, pro as tname, status'))
+        ->whereBetween('updated_at', $t)
+        ->groupBy('pro')
+        ->groupBy('status')
+        ->get();
+
+        $aa = DB::table('tasks')
+        ->select(DB::raw('count(*) as num, pro as tname'))
+        ->whereBetween('created_at', $t)
+        ->whereNotIn('status', [90, 99])
+        ->groupBy('pro')
+        ->get();
+
+        $s_pro = $this->getdata( $a, $aa, $default_status );
+
+        $tag = new Tag( );
+        $tag->name = '时间统计';
+        $tag->t_start = $t[0];
+        $tag->t_end = $t[1];
+
+
+        return view('tag-statistics', [
             'tag' => $tag,
             'users' => User::all()->keyBy( 'id' ),
             'departments' => Title::where('caty', 1)->get( )->keyBy('id'),
+            'pros' => Pro::all()->keyBy('id'),
             's_all' => $s_all,
             's_department' => $s_department,
+            's_pro' => $s_pro,
             's_leader' => $s_leader
-            ]);
+        ]);
+
+    }
+
+    private function getdata( $a, $aa, $default_status ) {
+        $rtn = array();
+        foreach ($a as $row) {
+            if (!isset($rtn[$row->tname])) {
+                $rtn[$row->tname] = $default_status;
+            }
+            $rtn[$row->tname][$row->status] = $row->num;
+        }
+        foreach ($aa as $row) {
+            $rtn[$row->tname]['new'] = $row->num;
+        }
+        return $rtn;
     }
 
     /**

@@ -32,13 +32,6 @@ class UserController extends Controller
         ]);
     }
 
-    public function getRegister( )
-    {
-        return view('auth.register', [
-            'departments' => Title::where('caty', 1)->get(  )->keyBy('id')
-        ]);
-    }
-
     /**
      * Show the form for creating a new resource.
      *
