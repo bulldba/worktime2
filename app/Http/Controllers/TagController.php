@@ -266,6 +266,7 @@ class TagController extends Controller
         return view('tag-bug', [
             'pros' => $pros,
             'tags' => $tags,
+            'catys' => $catys,
             'departments' => $departments,
             'users' => $users,
             'a' => $a,
