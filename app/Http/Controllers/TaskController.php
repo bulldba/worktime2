@@ -98,11 +98,22 @@ class TaskController extends Controller
         $perpage = 20;
         $offset = $this->page_get_start($curpage, $perpage, $totalnum);
 
-        $tasks = $query->orderBy('status')
-        ->orderBy('tag', 'desc')
-        ->orderBy('priority', 'desc')
-        ->orderBy('id', 'desc')
-        ->skip($offset)->take($perpage)
+        $query->orderBy('status');
+        $orderby = $request->input('orderby');
+        if ($orderby) {
+            if ('updated_at' == $orderby) {
+                $query->orderBy('updated_at', 'desc');
+            } elseif ('deadline' == $orderby) {
+                $query->orderBy('deadline');
+            }
+        } else {
+            $orderby = '';
+        }
+
+        $query->orderBy('tag', 'desc')
+        ->orderBy('priority', 'desc');
+
+        $tasks = $query->skip($offset)->take($perpage)
         ->get( );
 
         $tpl = 'task-list';
@@ -120,6 +131,7 @@ class TaskController extends Controller
             'prioritys' => Config::get('worktime.priority'),
             'departments' => Title::where('caty', 1)->get(  )->keyBy('id'),
             'options' => $options,
+            'orderby' => $orderby,
             'totalnum' => $totalnum,
             'curpage' => $curpage,
             'perpage' => $perpage
@@ -324,6 +336,9 @@ class TaskController extends Controller
             $newtask->$key = $value;
         }
 
+        $me = Auth::user();
+        $newtask->author = $me->id;
+
         $newtask->status = 12;
         $newtask->caty = Config::get( 'worktime.icheck' );
         $ccc = [];
@@ -404,7 +419,8 @@ title: $task->title
 #####content#####
 $task->content
 EOT;
-        file_put_contents('/home/tasks/' . $task->id, $svncontent);
+
+        file_put_contents('/home/www/tasks/' . $task->id, $svncontent);
     }
 
     public function getHr( Request $req ) {

@@ -11,7 +11,7 @@
 <div class="list-group">
   <a href="/task/index" class="list-group-item{{ Request::is('task/index') || Request::is('/') ? ' active' : '' }}">任务清单</a>
   <a href="/task/checks" class="list-group-item{{ Request::is('task/checks') ? ' active' : '' }}">CHECKS</a>
-  <a href="/task/hr" class="list-group-item{{ Request::is('task/hr') ? ' active' : '' }}">HR专用</a>
+  <a href="/tag/stats" class="list-group-item{{ Request::is('tag/stats') ? ' active' : '' }}">维度统计</a>
 </div>
 
 <div class="list-group">
@@ -23,7 +23,7 @@
 
 <div class="list-group">
   <a href="/pro/index" class="list-group-item{{ Request::is('pro/*') ? ' active' : '' }}">项目管理</a>
-  <a href="/tag/index" class="list-group-item{{ Request::is('tag/*') ? ' active' : '' }}">版本管理</a>
+  <a href="/tag/index" class="list-group-item{{ !Request::is('tag/stats') && Request::is('tag/*') ? ' active' : '' }}">版本管理</a>
   <a href="/title/index" class="list-group-item{{ Request::is('title/*') ? ' active' : '' }}">字段管理</a>
   <a href="/user/index" class="list-group-item{{ Request::is('user/*') ? ' active' : '' }}">成员管理</a>
 </div>

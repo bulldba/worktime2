@@ -52,66 +52,97 @@
 </div>
 </div>
 
-<table class="table table-bordered table-hover table-striped vertical-middle text-center">
-  <thead id="taskfilter">
-    <tr>
-        <th width="20" class="text-center">
-<input type="hidden" itag="val" name="search[author]" value="{{$options['author'] or 0}}" >
-<input type="checkbox" onclick="checkall('tasklist', 'ids[]',  $(this).prop('checked') );"></th>
-  <th width="100" class="text-center">
+<div class="row">
+<div class="col-lg-12" id="taskfilter">
+<div class="form-inline">
+
+<div class="form-group"> <div class="input-group">
+<span class="input-group-addon">筛选条件：</span>
 <select onchange="onFilterChangePro( this.value );taskFilter( 1 );" itag="val" name="search[pro]" class="form-control">
 <option value="0">项目</option>
 @include('selection-users', ['data' => $pros, 'slt' => isset($options['pro']) ? $options['pro'] : 0])
 </select>
-        </th>
-        <th width="100" class="text-center">
+</div></div>
+
+<div class="form-group">
 <select onchange="taskFilter( 1 );" itag="val" name="search[tag]" class="form-control" id="filterTags">
 <option value="0">版本</option>
 @include('selection-users', ['data' => $tags, 'slt' => isset($options['tag']) ? $options['tag'] : 0])
 </select>
-        </th>
-        <th width="80" class="text-center">
+</div>
+
+<div class="form-group">
 <select onchange="taskFilter( 1 );" itag="val" name="search[status]" class="form-control">
 <option value="0">状态</option>
 @include('selection', ['data' => $status, 'slt' => isset($options['status']) ? $options['status'] : 0])
-</select></th>
-        <th width="30" class="text-center">
+</select>
+</div>
+
+<div class="form-group">
 <select onchange="taskFilter( 1 );" itag="val" name="search[priority]" class="form-control">
-<option value="0">优</option>
+<option value="0">优先级</option>
 @include('selection', ['data' => $prioritys, 'slt' => isset($options['priority']) ? $options['priority'] : 0])
 </select>
-        </th>
-        <th width="80" class="text-center">
+</div>
+
+<div class="form-group">
 <select onchange="taskFilter( 1 );" itag="val" name="search[caty]" class="form-control">
 <option value="0">类型</option>
 @include('selection-users', ['data' => $catys, 'slt' => isset($options['caty']) ? $options['caty'] : 0])
 </select>
-        </th>
-        <th>标题 </th>
+</div>
 
-        <th width="80" class="text-center">
+
+<div class="form-group">
 <select onchange="onFilterChangeDepartment(this.value);taskFilter( 1 );" itag="val" name="search[department]" class="form-control">
 <option value="0">部门</option>
 @include('selection-users', ['data' => $departments, 'slt' => isset($options['department']) ? $options['department'] : 0])
 </select>
-        </th>
+</div>
 
-        <th width="80" class="text-center">
+<div class="form-group">
 <select onchange="taskFilter( 1 );" itag="val" name="search[leader]" class="form-control" id="filterLeaders">
-<option value="0">实施</option>
+<option value="0">负责人</option>
 @include('selection-users', ['data' => $users, 'slt' => isset($options['leader']) ? $options['leader'] : 0])
 </select>
-        </th>
+</div>
 
-        <th width="80" class="text-center">
+<div class="form-group">
 <select onchange="taskFilter( 1 );" itag="val" name="search[tester]" class="form-control" id="filterLeaders">
-<option value="0">验收</option>
+<option value="0">验收人</option>
 @include('selection-users', ['data' => $users, 'slt' => isset($options['tester']) ? $options['tester'] : 0])
 </select>
-        </th>
+</div>
 
-        <th width="155" class="text-center">修改时间</th>
-        <th width="155" class="text-center">期限</th>
+<div class="form-group">
+<select onchange="taskFilter( 1 );" itag="val" name="orderby" class="form-control" id="filterLeaders">
+<option value="0">排序</option>
+@include('selection', ['data' => ['updated_at' => '修改时间', 'deadline' => '限期时间'], 'slt' => $orderby])
+</select>
+</div>
+
+</div>
+</div>
+</div>
+<div class="line"></div>
+
+<table class="table table-bordered table-hover table-striped vertical-middle text-center">
+  <thead>
+    <tr>
+        <th width="20" class="text-center">
+<input type="hidden" itag="val" name="search[author]" value="{{$options['author'] or 0}}" >
+<input type="checkbox" onclick="checkall('tasklist', 'ids[]',  $(this).prop('checked') );"></th>
+  <th width="100" class="text-center"> 项目 </th>
+  <th width="100" class="text-center"> 版本 </th>
+  <th width="80" class="text-center"> 状态 </th>
+  <th width="50" class="text-center"> 等级 </th>
+  <th width="50" class="text-center"> 类型 </th>
+  <th>标题 </th>
+  <th width="80" class="text-center"> 部门 </th>
+  <th width="80" class="text-center"> 负责人 </th>
+  <th width="80" class="text-center"> 验收人 </th>
+  <th width="155" class="text-center">修改时间</th>
+  <th width="155" class="text-center">期限</th>
     </tr>
   </thead>
   <tbody id="tasklist">
@@ -155,7 +186,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">实施</span>
+        <span class="input-group-addon">执行</span>
 <select itag="val" name="changeto[leader]" class="form-control" id="leaders">
 <option value="0">不修改</option>
 @include('selection-users', ['data' => $users, 'slt' => 0])

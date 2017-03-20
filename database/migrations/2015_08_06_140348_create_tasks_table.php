@@ -29,8 +29,6 @@ class CreateTasksTable extends Migration
             $table->integer('pro')->default( 1 );
             $table->integer('tag')->default( 1 );
 
-            $table->smallInteger('science')->default( 0 );
-
             $table->integer('deadline')->default( 0 );
 
             $table->timestamps();

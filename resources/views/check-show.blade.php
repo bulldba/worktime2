@@ -87,7 +87,7 @@
     <div class="form-group">
     <div class="input-group">
         <span class="input-group-addon">限期</span>
-<input onclick="showcalendar(event, this, true)" itag="val" name="row[deadline]" type="text" class="form-control" value="{{date('Y-m-d H:i:s', $task->deadline) }}">
+<input onclick="showcalendar(event, this, true)" itag="val" name="row[deadline]" type="text" class="form-control" value="{{date('Y-m-d H:i:s', $task->deadline ? $task->deadline : time()) }}">
     </div>
     </div>
     <button type="submit" class="btn btn-danger margin-right">发布成任务</button>

@@ -64,7 +64,7 @@
 
     <div class="form-group">
     <div class="input-group">
-        <span class="input-group-addon">实施</span>
+        <span class="input-group-addon">执行</span>
 <select itag="val" name="row[leader]" class="form-control" id="leaders">
 @foreach ($users as $user)
 @if ($user->department == $task->department)
@@ -103,15 +103,6 @@
         <span class="input-group-addon">优先级</span>
 <select itag="val" name="row[priority]" class="form-control">
 @include('selection', ['data' => Config::get('worktime.priority'), 'slt' => $task->priority])
-</select>
-    </div>
-    </div>
-
-    <div class="form-group">
-    <div class="input-group">
-        <span class="input-group-addon" title="是否可以被量化验证">是否量化</span>
-<select itag="val" name="row[science]" class="form-control">
-@include('selection', ['data' => ['未', '否', '是'], 'slt' => $task->science])
 </select>
     </div>
     </div>

@@ -30,6 +30,6 @@ foreach ($tasks as $task) {
 <td>{{date('Y-m-d H:i:s', $task->deadline)}}</td>
 </tr>
 <?php } ?>
-<tr><td colspan="11" class="text-left">
+<tr><td colspan="12" class="text-left">
 @include('ajax-page')
 </td></tr>

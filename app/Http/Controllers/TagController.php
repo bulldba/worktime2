@@ -86,8 +86,8 @@ class TagController extends Controller
         $default_status['new'] = 0;
 
         $t = array(
-            $req->input('start'),
-            $req->input('end')
+            $req->input('start') . ' 00:00:00',
+            $req->input('end'). ' 23:59:00'
         );
 
         $a = DB::table('tasks')
@@ -193,26 +193,85 @@ class TagController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+    public function getStats( Request $req ) {
+        $t_start = $req->input('t_start');
+        $t_end = $req->input('t_end');
+
+        if ($t_end && $t_start) {
+            $t = array(
+                $t_start,
+                $t_end
+            );
+        } else {
+            $t = array(
+                date( 'Y-m-d', time() - 86400 * 14),
+                date('Y-m-d')
+            );
+        }
+
+        $query = DB::table('tasks')
+        ->whereBetween('updated_at', [$t[0] . ' 00:00:00', $t[1] . ' 23:59:59']);
+
+        $wheres = $req->input('row');
+        if (!$wheres) {
+            $wheres = array();
+        }
+        foreach ($wheres as $where => $val) {
+            if ($val > 0 ) {
+                $query->where($where, $val);
+            }
+        }
+
+        $rows = $query->orderBy('department')
+        ->orderBy('caty')
+        ->orderBy('status')
+        ->get();
+
+        $catys = Title::where('caty', Config::get('worktime.caty'))->get( )->keyBy('id');
+        $users = User::all()->keyBy( 'id' );
+
+        $pros = Pro::all()->keyBy('id');
+        $tags = Tag::all()->keyBy('id');
+
+        $departments = Title::where('caty', 1)->get( )->keyBy('id');
+
+        $a = array();
+        foreach ($rows as $row) {
+            $titles = explode('】', $row->title);
+            if (count($titles) <= 1) {
+                continue;
+            }
+
+            $module = str_replace('【', '', $titles[0]);
+            if (isset($titles[2])) {
+                $caty = str_replace('【', '', $titles[1]);
+            } else {
+                $caty = $catys[$row->caty]->name;
+            }
+
+            $status = Config::get('worktime.status');
+
+            $a[] = [
+                'module' => $module,
+                'caty' => $caty,
+                'leader' => $users[$row->leader]->name,
+                'author' => $users[$row->author]->name,
+                'tester' => $row->tester ? $users[$row->tester]->name : 'abc',
+                'status' => $status[$row->status],
+                'pro' => $pros[$row->pro]->name,
+                'tag' => $tags[$row->tag]->name
+            ];
+        }
+
+        return view('tag-bug', [
+            'pros' => $pros,
+            'tags' => $tags,
+            'departments' => $departments,
+            'users' => $users,
+            'a' => $a,
+            'wheres' => $wheres,
+            't' => $t
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

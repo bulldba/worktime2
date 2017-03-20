@@ -73,7 +73,7 @@ function onChangeDepartment( id ) {
   $("#leaders").html( options + getUsers( id ) );
 }
 function onFilterChangeDepartment( id ) {
-  var options = "<option value='0'>负责</option>";
+  var options = "<option value='0'>成员</option>";
   $("#filterLeaders").html( options + getUsers( id ) );
 }
 
