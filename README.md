@@ -3,22 +3,26 @@
 用php重新开发了 iwork，不再使用框架<br>
 https://github.com/aoktian/iwork<br>
 
-#worktime2
+worktime2
+=
 一款轻量级研发项目管理工具，主要针对中小互联网敏捷开发团队，页面清爽简单，功能精简好用。
 
-##使用框架 laravel 5.1
+使用框架 laravel 5.1
+-
 相关文档可以参考<br>
 http://laravel-china.org/docs/5.1<br>
 http://www.golaravel.com/laravel/docs/5.1/<br>
 
-##基本配置
+基本配置
+-
 .env 文件可以修改数据库配置<br>
 mysql 里面要先创建一个数据库，例如：CREATE DATABASE IF NOT EXISTS worktime DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;<br>
 执行命令创建数据库表 php artisan migrate<br>
 chmod 777 -R storage<br>
 开发环境下，也可以使用php自带的webserver 命令：php artisan serve --port=8080<br>
 
-##我使用的shell history
+我使用的shell history
+-
 ```Java
 pwd
 #/data/www
@@ -52,5 +56,6 @@ location / {
 
 ```
 
-##联系我
+联系我
+-
 email: aoktian@foxmail.com
