@@ -42,6 +42,7 @@ vim .env
 php artisan key:generate
 chmod 777 -R storage/
 php artisan migrate
+php artisan db:seed
 
 #改 nginx 配置
 vim /usr/local/programs/nginx/conf/nginx.conf
